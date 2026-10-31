@@ -64,6 +64,27 @@ export default function AboutPage() {
           </p>
         </div>
 
+        <section aria-labelledby="ai-heading" className="mt-14 max-w-200">
+          <h2
+            id="ai-heading"
+            className="font-display text-h2 leading-head font-extrabold tracking-display"
+          >
+            Proč na tom s AI záleží
+          </h2>
+          <div className="mt-4 space-y-3 leading-body text-ink-2 sm:text-body-lg">
+            <p>
+              Hra vychází z obavy, že AI usnadní podvody. Jazykový model napíše zprávu bez chyb, ve
+              stylu konkrétního člověka a v jakémkoli množství. Napodobený hlas zvládne i telefonát.
+              Rada „podvodný e-mail poznáš podle chyb“ proto přestává platit.
+            </p>
+            <p>
+              Dva světy proto neučí rozpoznat podvodnou zprávu. Učí ověřit konkrétní požadavek
+              cestou, kterou zpráva nemohla podstrčit: kontaktem uloženým dřív a otázkou na přesnou
+              změnu. Takový postup funguje bez ohledu na to, jak přesvědčivě zpráva vypadá.
+            </p>
+          </div>
+        </section>
+
         <div className="mt-14 grid gap-x-14 gap-y-14 md:grid-cols-2">
           <Section number={1} title="Připravené reality">
             <p>

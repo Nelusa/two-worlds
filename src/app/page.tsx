@@ -64,6 +64,11 @@ export default function HomePage() {
                   "Krátký příběh o jednom požadavku dodavatele. Prohlédneš podklady, rozhodneš se a pak uvidíš, co by stejné kroky ukázaly ve dvou různých realitách.",
                 )}
               </p>
+              <p className="mt-4 border-l-4 border-ink bg-paper pl-4 leading-body font-bold sm:bg-transparent">
+                {typography(
+                  "AI dnes napíše bezchybnou zprávu i napodobí hlas. Podvod proto nepoznáš podle toho, jak zpráva vypadá, ale podle toho, jak ji ověříš.",
+                )}
+              </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Link href="/play" className="ds-btn">
                   Otevřít případ

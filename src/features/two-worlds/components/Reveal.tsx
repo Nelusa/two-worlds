@@ -147,6 +147,10 @@ export function Reveal({
             Stejná zpráva. Dvě reality. Rozhoduje, jak ji ověříš.
           </p>
           <p className="mt-2 max-w-160 leading-body">{typography(takeaway)}</p>
+          <p className="mt-2 max-w-160 leading-body text-ink-2">
+            Stejně přesvědčivou zprávu dnes s pomocí AI napíše i útočník. Proto rozhoduje ověření,
+            ne to, jak zpráva vypadá.
+          </p>
         </div>
 
         <section aria-labelledby="reveal-1" data-reveal-section>
