@@ -44,7 +44,7 @@ export default function HomePage() {
 
           <div className="relative pt-16 text-center sm:pt-18">
             <p className="text-small font-bold">
-              <span className="bg-paper px-2">Interaktivní detektivka o jednom požadavku</span>
+              <span className="bg-paper px-2">Interaktivní detektivka o ověřování požadavků</span>
             </p>
             <h1 id="hero-heading" className="ds-overprint ds-overprint--ink mt-5 sm:mt-8">
               <span className="ds-overprint__plate" aria-hidden="true">

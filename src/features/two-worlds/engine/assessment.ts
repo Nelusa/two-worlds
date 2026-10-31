@@ -152,7 +152,7 @@ export const GROUNDING_TEXT: Record<Grounding, { label: string; explanation: str
       "Odmítnutí chrání před neoprávněnou změnou, ale chybí podklad, že jde o podvod. Oprávněný požadavek by tím zůstal nevyřízený.",
   },
   against_evidence: {
-    label: "Rozhodnutí proti získané odpovědi",
+    label: "Rozhodnuto jinak, než řekla odpověď",
     explanation: "Odpověď přes původní kontakt říkala opak toho, co bylo rozhodnuto.",
   },
 };

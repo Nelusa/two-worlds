@@ -187,6 +187,13 @@ export function Reveal({
                 </div>
               </article>
             </div>
+            <p className="relative mx-auto mt-10 flex max-w-lg gap-3 bg-paper text-small leading-body">
+              <span className="font-mono text-meta">pozn.</span>
+              <span>
+                Text této zprávy napsala AI podle několika faktů z objednávky. Útočník by to zvládl
+                stejně snadno.
+              </span>
+            </p>
             <div className="relative mt-14 grid gap-10 sm:grid-compare sm:gap-14">
               {WORLDS.map((world) => (
                 <article

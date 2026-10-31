@@ -11,10 +11,7 @@ export const WORLD_SHORT: Record<WorldId, string> = {
  * Plate classes of each reality. Allowed only after the decision: before it the page is
  * paper and ink only, so nothing can hint which reality is being played.
  */
-export const WORLD_PLATE: Record<
-  WorldId,
-  { number: 1 | 2; rule: string; wash: string }
-> = {
+export const WORLD_PLATE: Record<WorldId, { number: 1 | 2; rule: string; wash: string }> = {
   legitimate: { number: 1, rule: "ds-plate-rule--1", wash: "ds-wash--1" },
   fraudulent: { number: 2, rule: "ds-plate-rule--2", wash: "ds-wash--2" },
 };

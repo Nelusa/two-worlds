@@ -119,6 +119,12 @@ export function Workspace({ run, onPerform, onDecide, onBackToReveal }: Workspac
         lead={<p>{typography(content.context)}</p>}
         aside={<StoryClock time={time} note={`${day} · ${content.clockNote}`} />}
       >
+        {!branchWorld && (
+          <p className="max-w-160 border-l-4 border-ink pl-4 font-bold">
+            Zprávu mohl napsat skutečný odesílatel, nebo někdo, kdo se za něj s pomocí AI vydává.
+            Hra to ví, ty zatím ne.
+          </p>
+        )}
         <HowToPlay />
       </StageHeader>
 

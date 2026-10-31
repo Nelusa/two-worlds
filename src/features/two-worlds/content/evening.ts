@@ -17,7 +17,7 @@ export const EVENING_CASE: CaseContent = {
   storyTime: "Dnes 16:42",
   clockNote: "Akce se koná zítra",
   context:
-    "Zítra pořádáš komunitní večer. Dodavatel má ráno přivézt vybavení. Zbývá vyřešit zálohu a potvrdit dodání. Právě přišla nová zpráva.",
+    "Zítra pořádáš komunitní večer. Ateliér Javor má ráno přivézt vybavení. Zbývá vyřešit zálohu a potvrdit dodání. Právě přišla nová zpráva.",
   changeLabel: "záloha 8 400 Kč k JAVOR-014 na Účet B",
   attachmentAction: "open_attachment",
   variants: [
@@ -318,7 +318,7 @@ export const EVENING_CASE: CaseContent = {
     {
       decision: "approve",
       label: "Odsouhlasit nové údaje",
-      description: "V simulaci autorizuješ zálohu 8 400 Kč na Účet B.",
+      description: "V simulaci pošleš zálohu 8 400 Kč na Účet B.",
     },
     {
       decision: "reject",
@@ -348,7 +348,7 @@ export const EVENING_CASE: CaseContent = {
         },
         wait: {
           status: "Čeká na ověření",
-          consequence: "Platba zatím neodešla. Akce zůstává pozastavená, dokud se změna neověří.",
+          consequence: "Platba zatím neodešla a dodání čeká, dokud se změna neověří.",
         },
       },
     },
@@ -369,7 +369,7 @@ export const EVENING_CASE: CaseContent = {
         },
         wait: {
           status: "Čeká na ověření",
-          consequence: "Platba zatím neodešla. Akce zůstává pozastavená, dokud se změna neověří.",
+          consequence: "Platba zatím neodešla a dodání čeká, dokud se změna neověří.",
         },
       },
     },
