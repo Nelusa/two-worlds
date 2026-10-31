@@ -82,6 +82,13 @@ Co zůstalo podle aplikace místo podle návrhu:
 - Označení případu zůstává „Případ 1“ (v návrhu „spis č. 1“), velikosti písma podle tokenů, i kde se PNG mírně liší.
 - Obrazovky, které v balíčku nejsou (výsledek větve, výsledek postupu, druhý případ, závěrečná karta, ukázkový režim, 404), jsou složené ze stejných komponent. Doplňující zadání pro Claude Design je v `docs/design-brief-b2-doplneni.md`.
 
+## Příprava na soutěž (31. 10.)
+
+- Na úvodu je řádek se dvěma případy a věta o tom, proč AI mění ověřování. Odhalení začíná pointou a větou o tom, kde se konkrétní pokus rozešel; mapa původu se otevírá na požádání. Na stránce Princip a omezení je oddíl „Proč na tom s AI záleží“.
+- Postup má jednotný název („Můj postup“, kroky v „Kroky postupu“) a vysvětlený účel.
+- Plynulé přechody mezi stránkami, fázemi hry a listy; při omezení pohybu vypnuté.
+- Kód je v repozitáři `Nelusa/two-worlds`, produkce běží na https://dva-svety.vercel.app a nasazuje se z `main`.
+
 ## Důležitá rozhodnutí
 
 - Samostatný projekt `two-worlds/` vedle ostatních osobních projektů, port 3021, stejný stack jako sousední projekty + Playwright.

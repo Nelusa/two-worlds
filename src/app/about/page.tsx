@@ -121,10 +121,10 @@ export default function AboutPage() {
 
           <Section number={4} title="Použití AI">
             <p>
-              AI pomáhala s návrhem textů, jazykové varianty úvodní zprávy, kódu a testů. Všechny
-              texty jsou pevně uložené a zkontrolované člověkem. Pravdu o realitách, odpovědi a
-              vyhodnocení drží typovaný model, ne generovaný text. Při spuštění aplikace se žádné AI
-              nevolá a nic se neodesílá.
+              AI pomáhala s návrhem textů, jazykové varianty úvodní zprávy, vizuálu, kódu a testů.
+              Všechny texty jsou pevně uložené a zkontrolované člověkem. Pravdu o realitách,
+              odpovědi a vyhodnocení drží typovaný model, ne generovaný text. Při spuštění aplikace
+              se žádné AI nevolá a nic se neodesílá.
             </p>
           </Section>
 

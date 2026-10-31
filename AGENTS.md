@@ -15,7 +15,9 @@ Co aplikace dělá, je v [README.md](README.md). Stav plnění zadání je v [do
 
 ## Konvence
 
-Komponenty PascalCase, žádné `React.Foo`, žádné `for` cykly, žádné arbitrary Tailwind hodnoty ani hex v komponentách (tokeny jsou v `src/app/globals.css`). Texty v UI česky, bez dlouhé pomlčky.
+Komponenty PascalCase, žádné `React.Foo`, žádné `for` cykly, žádné arbitrary Tailwind hodnoty ani hex v komponentách. Texty v UI česky, bez dlouhé pomlčky.
+
+Vizuál je směr B2 z `design/b2/` (vzory obrazovek v `design/b2/screens/`). Tokeny, `.ds-*` komponenty a choreografie odhalení jsou v `src/styles/` beze změny proti balíčku, Tailwind je jen zpřístupňuje v `src/app/globals.css`. Barvy desek (`--plate-*`) se smí použít až po rozhodnutí. Texty z obsahu případu se vykreslují přes `typography()`.
 
 ## Ověření
 

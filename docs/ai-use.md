@@ -4,6 +4,8 @@
 
 - **Kód, testy a dokumentace** vznikly s pomocí Claude Code (Anthropic) podle zadání projektu. Autorka zadání a výsledek kontroluje.
 - **Texty obou případů** (zprávy, odpovědi, vysvětlení) navrhla AI podle kanonických faktů ze zadání. Druhá jazyková varianta hlavního e-mailu (`v2` v `content/evening.ts`) je také navržená AI.
+- **Vizuální směr** „Soutisk se spisem“ (B2) navrhl Claude Design podle zadání v `docs/design-brief.md`. Balíček s tokeny, komponentami a vzory obrazovek je v `design/b2/`, do aplikace ho převedl Claude Code a výsledek se porovnával se vzory.
+- **Video průchodu** natočil skript v Playwrightu, který připravil Claude Code. Klikání je skriptované, realita je pro video pevně daná.
 - **Kontrola variant**: obě varianty obsahují stejná fakta (8 400 Kč, JAVOR-014, příloha, „dnes“) a žádná neobsahuje text ani vodítko patřící jen jedné realitě. To hlídají testy v `engine/rules.test.ts`. Lidská jazyková kontrola textů je na autorce před případným zveřejněním.
 
 ## Oddělení textu od pravdy scénáře

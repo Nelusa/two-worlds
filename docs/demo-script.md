@@ -2,7 +2,7 @@
 
 **Připravená ukázka.** Běží v ukázkovém režimu s předem zvolenou realitou, nejde o samostatný výkon hráče. Časy jsou orientační, neměřené.
 
-Příprava: `npm run dev`, otevřít `http://localhost:3021/demo?world=fraudulent&variant=v1&contact=available&transferWorld=legitimate`.
+Příprava: otevřít `https://dva-svety.vercel.app/demo?world=fraudulent&variant=v1&contact=available&transferWorld=legitimate`, případně lokálně po `npm run dev` `http://localhost:3021/demo?world=fraudulent&variant=v1&contact=available&transferWorld=legitimate`.
 
 | Čas | Kliknutí | Co říct |
 | --- | --- | --- |

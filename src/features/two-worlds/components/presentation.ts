@@ -75,5 +75,3 @@ export const splitStoryTime = (storyTime: string) => {
   const parts = storyTime.split(" ");
   return { day: parts.slice(0, -1).join(" "), time: parts.at(-1) ?? storyTime };
 };
-
-export const initialOf = (name: string) => name.trim().charAt(0).toUpperCase();

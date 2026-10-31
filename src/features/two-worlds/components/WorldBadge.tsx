@@ -13,10 +13,10 @@ export const WORLD_SHORT: Record<WorldId, string> = {
  */
 export const WORLD_PLATE: Record<
   WorldId,
-  { number: 1 | 2; rule: string; wash: string; text: string }
+  { number: 1 | 2; rule: string; wash: string }
 > = {
-  legitimate: { number: 1, rule: "ds-plate-rule--1", wash: "ds-wash--1", text: "text-plate-1" },
-  fraudulent: { number: 2, rule: "ds-plate-rule--2", wash: "ds-wash--2", text: "text-plate-2" },
+  legitimate: { number: 1, rule: "ds-plate-rule--1", wash: "ds-wash--1" },
+  fraudulent: { number: 2, rule: "ds-plate-rule--2", wash: "ds-wash--2" },
 };
 
 interface WorldBadgeProps {

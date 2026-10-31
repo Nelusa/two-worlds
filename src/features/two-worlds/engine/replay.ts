@@ -15,9 +15,6 @@ export interface Replay {
   divergenceIndex: number | null;
 }
 
-export const otherWorld = (world: WorldId): WorldId =>
-  world === "legitimate" ? "fraudulent" : "legitimate";
-
 /**
  * Replays the player's real actions in both worlds. The world the attempt was played in keeps
  * every action. The other world is processed only up to the first answer that would differ:
