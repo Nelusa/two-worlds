@@ -28,6 +28,7 @@ Aplikace běží na http://localhost:3021. Produkční verze se nasazuje na Verc
 | `/demo` | označený ukázkový režim s volbou reality, znění zprávy a dostupnosti kontaktu |
 | `/about` | proč na tom s AI záleží, princip, předpoklad modelu, ukládání, stav ověření |
 | `/saved` | uložený průběh v tomto prohlížeči, export do JSON a smazání |
+| `/video` | video průchodu hrou (bez zvuku, skriptované klikání) |
 
 ## Kontroly
 
