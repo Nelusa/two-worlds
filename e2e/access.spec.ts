@@ -147,7 +147,12 @@ test("with motion both realities and both answers start at the same moment", asy
 });
 
 test.describe("phone viewport 390 × 844", () => {
-  test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  test.use({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    reducedMotion: "reduce",
+  });
 
   test("principle and saved progress pages fit without horizontal scrolling", async ({ page }) => {
     for (const path of ["/about", "/saved"]) {

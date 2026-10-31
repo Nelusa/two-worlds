@@ -252,7 +252,7 @@ export function Game({ playMode, initialState, onExitDemo }: GameProps) {
             nextHint={
               isTransfer
                 ? undefined
-                : "Sestavíš si, jak budeš podobný požadavek ověřovat příště. Postup se přehraje v obou realitách a pak ho vyzkoušíš na druhém případu."
+                : "Teď si sestavíš vlastní postup ověření a vyzkoušíš ho na druhém případu."
             }
           />
         );

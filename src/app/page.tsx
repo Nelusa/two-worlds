@@ -24,12 +24,12 @@ const CASES_PREVIEW = [
   {
     kicker: "případ 1",
     title: CASES.evening.title,
-    text: "Dodavatelka chce zálohu na zítřejší dodání poslat na nový účet. Tady se hraje první pokus a uvidíš obě reality.",
+    text: "Dodavatelka chce zálohu na zítřejší dodání poslat na nový účet.",
   },
   {
     kicker: "případ 2 · po vlastním postupu",
     title: CASES.handover.title,
-    text: "Dopravce má vyzvednout zapůjčené ozvučení jinde, než bylo domluveno. Vyzkoušíš si na něm svůj postup v nové situaci.",
+    text: "Dopravce chce vyzvednout zapůjčené ozvučení jinde, než bylo domluveno. Tady si vyzkoušíš svůj postup.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function HomePage() {
             <div className="sm:max-w-lg">
               <p className="bg-paper text-body-lg leading-body text-ink-2 sm:max-w-120 sm:bg-transparent sm:text-body">
                 {typography(
-                  "Krátký příběh o jednom požadavku dodavatele. Prohlédneš podklady, rozhodneš se a pak uvidíš, co by stejné kroky ukázaly ve dvou různých realitách.",
+                  "Krátká hra o zprávě, která existuje ve dvou realitách. Ty nevíš, ve které hraješ.",
                 )}
               </p>
               <p className="mt-4 border-l-4 border-ink bg-paper pl-4 leading-body font-bold sm:bg-transparent">

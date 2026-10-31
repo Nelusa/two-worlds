@@ -10,6 +10,9 @@ import {
   startDemo,
 } from "./helpers";
 
+// Screenshots for the docs show the reveal in its final state, not mid-animation.
+test.use({ reducedMotion: "reduce" });
+
 test("fraudulent world: full journey from intro to the final card", async ({ page }) => {
   // The longest journeys; the default 30 s is tight on a busy machine.
   test.setTimeout(90_000);

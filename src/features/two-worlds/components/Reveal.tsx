@@ -106,14 +106,7 @@ export function Reveal({
           </StageHeading>
         </div>
         <div className="max-w-120 lg:justify-self-end">
-          <p className="leading-body text-ink-2">
-            Stejná zpráva přišla ve dvou připravených realitách. Tvůj pokus proběhl v jedné z nich.
-            Teď uvidíš, co by tytéž úkony ukázaly v té druhé.
-          </p>
-          <ol
-            aria-label="Průběh odhalení"
-            className="mt-4 flex flex-wrap gap-x-5 gap-y-1 text-small"
-          >
+          <ol aria-label="Průběh odhalení" className="flex flex-wrap gap-x-5 gap-y-1 text-small">
             {STEP_SHORT.map((step, index) => (
               <li key={step} aria-current={index + 1 === revealed ? "step" : undefined}>
                 {index < revealed ? (
@@ -147,10 +140,6 @@ export function Reveal({
             Stejná zpráva. Dvě reality. Rozhoduje, jak ji ověříš.
           </p>
           <p className="mt-2 max-w-160 leading-body">{typography(takeaway)}</p>
-          <p className="mt-2 max-w-160 leading-body text-ink-2">
-            Stejně přesvědčivou zprávu dnes s pomocí AI napíše i útočník. Proto rozhoduje ověření,
-            ne to, jak zpráva vypadá.
-          </p>
         </div>
 
         <section aria-labelledby="reveal-1" data-reveal-section>
@@ -233,8 +222,8 @@ export function Reveal({
           <section aria-labelledby="reveal-2" data-reveal-section>
             {sectionHeading(1)}
             <p className="mt-3 mb-8 max-w-140 leading-body text-ink-2">
-              Tvoje skutečné úkony se přehrály i v druhé realitě, ale jen do první odpovědi, která
-              by se lišila. Za ní bys už věděl/a něco jiného.
+              Tvoje úkony se přehrály i ve druhé realitě, ale jen do první odpovědi, která se
+              lišila.
             </p>
             {record.actions.length === 0 ? (
               <p className="border-y border-ink py-5">
@@ -302,8 +291,7 @@ export function Reveal({
                           Tady se získané informace rozcházejí
                         </p>
                         <p className="mt-2 max-w-120 text-small leading-body">
-                          V této realitě bys dostal/a jinou odpověď. Tvoje rozhodnutí z prvního
-                          pokusu se sem nepřenáší, protože jsi ho dělal/a po jiné informaci.
+                          Tady bys dostal/a jinou odpověď, takže tvoje rozhodnutí se sem nepřenáší.
                         </p>
                         {canBranch && (
                           <button

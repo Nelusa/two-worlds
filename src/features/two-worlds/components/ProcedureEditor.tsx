@@ -138,8 +138,8 @@ export function ProcedureEditor({
         title="Můj postup"
         lead={
           <p>
-            Vyber úkony, které uděláš, než o změně rozhodneš, a seřaď je. Postup se pak přehraje v
-            obou realitách najednou a potom ho vyzkoušíš na druhém případu.
+            Vyber a seřaď úkony, které uděláš před rozhodnutím. Postup se přehraje v obou realitách
+            a pak ho vyzkoušíš na druhém případu.
           </p>
         }
       />
@@ -151,8 +151,7 @@ export function ProcedureEditor({
                 Úkony
               </legend>
               <p className="mt-2 mb-3 text-small text-ink-2">
-                Můžeš vybrat více úkonů. Pořadí je podle toho, jak je přidáváš, a v postupu ho můžeš
-                změnit.
+                Můžeš vybrat více úkonů. Pořadí upravíš v krocích postupu.
               </p>
               <div className="border-b border-rule">
                 {candidates.map((action) => (
