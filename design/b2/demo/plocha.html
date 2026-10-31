@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Večer, který se má uskutečnit · Dva světy (ukázka B2)</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../components/components.css">
+<style>
+  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 22px 0; border-bottom: var(--border-section) solid var(--ink); }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand b { font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: -0.02em; }
+  .nav { display: flex; gap: 28px; font-weight: 700; font-size: 16px; }
+  .nav a { text-decoration: none; padding: 6px 0; }
+  .case { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px 32px; padding: 40px 0; }
+  .case h1 { margin: 6px 0 10px; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-h1); line-height: 0.95; letter-spacing: -0.035em; }
+  .case p { margin: 0; max-width: 640px; color: var(--ink-2); font-size: 18px; }
+  .clock { text-align: right; }
+  .clock b { display: block; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-clock); line-height: 0.8; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+  .work { display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-start; }
+  .folder { flex: 999 1 760px; min-width: 0; display: flex; flex-wrap: wrap; align-items: flex-start; }
+  .folder nav { flex: 0 1 252px; padding-top: 48px; }
+  .folder nav h2 { margin: 0 0 12px; font-family: var(--font-display); font-weight: 700; font-size: 20px; }
+  .folder .ds-sheet { flex: 999 1 480px; min-width: 0; }
+  .side { flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 48px; padding-top: 48px; }
+  .side p { margin: 12px 0; color: var(--ink-2); font-size: 16px; }
+  .ds-sheet:focus-visible h2, .ds-sheet h2:focus-visible { outline: var(--focus-width) solid var(--ink); outline-offset: 4px; }
+  .q { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--ink); }
+  .bar { display: none; }
+  @media (max-width: 900px) {
+    .folder nav { flex-basis: 100%; padding-top: 0; }
+    .side { padding-top: 0; }
+    .bar { display: flex; position: sticky; bottom: 0; z-index: 5; justify-content: space-between; align-items: center; gap: 12px; margin: 48px calc(-1 * var(--gutter)) 0; padding: 12px var(--gutter) 16px; background: var(--paper); border-top: var(--border-section) solid var(--ink); }
+    .side .ds-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="ds-container">
+  <header class="hdr">
+    <a class="brand" href="#"><img src="../icons/logo-pred-rozhodnutim.svg" alt="" width="30" height="22"><b>Dva světy</b><span class="ds-mono" style="color: var(--ink-3)">simulace</span></a>
+    <nav class="nav" aria-label="Hlavní"><a href="#">Princip a omezení</a><a href="#">Uložený průběh</a></nav>
+  </header>
+
+  <section class="case">
+    <div>
+      <p class="ds-mono" style="color: var(--ink)">spis č. 1</p>
+      <h1>Večer, který se má uskutečnit</h1>
+      <p>Zítra pořádáš komunitní večer. Dodavatel má ráno přivézt vybavení. Zbývá vyřešit zálohu a&nbsp;potvrdit dodání. Právě přišla nová zpráva.</p>
+    </div>
+    <div class="clock"><b>16:42</b><span class="ds-mono">dnes · akce se koná zítra</span></div>
+  </section>
+
+  <div class="work">
+    <div class="folder">
+      <nav aria-label="Podklady a kontakty">
+        <h2>Podklady a kontakty</h2>
+        <ol class="ds-tabs" id="tabs"></ol>
+      </nav>
+      <article class="ds-sheet" id="sheet" aria-labelledby="sheet-title"></article>
+    </div>
+    <aside class="side">
+      <section class="ds-section" aria-labelledby="roz">
+        <h2 class="ds-section__title" id="roz">Rozhodnutí</h2>
+        <p><span id="count">1 získaný podklad</span>. Rozhodnout můžeš kdykoli, ověření není podmínkou.</p>
+        <button type="button" class="ds-btn" data-open-decision>Rozhodnout o požadavku</button>
+      </section>
+      <section class="ds-section" aria-labelledby="hist">
+        <h2 class="ds-section__title" id="hist">Historie úkonů</h2>
+        <ol class="ds-log ds-log--narrow" id="log" style="margin-top: 8px"></ol>
+      </section>
+    </aside>
+  </div>
+  <div class="bar"><span id="count2" style="font-size: 15px; color: var(--ink-2)">1 podklad</span><button type="button" class="ds-btn" data-open-decision style="white-space: nowrap">Rozhodnout o požadavku</button></div>
+  <div style="height: 64px"></div>
+</div>
+
+<dialog class="ds-dialog" id="decision" aria-labelledby="dec-title">
+  <form method="dialog" id="dec-form">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+      <p class="ds-mono" style="margin: 0">spis č. 1 · rozhodnutí</p>
+      <button type="submit" value="cancel" class="ds-dialog__close" aria-label="Zavřít a vrátit se k podkladům"><img src="../icons/zavrit.svg" alt="" width="22" height="22"></button>
+    </div>
+    <h2 id="dec-title" tabindex="-1" style="margin: 8px 0 12px; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-h2); line-height: 0.98; letter-spacing: -0.03em">Co uděláš s&nbsp;požadavkem?</h2>
+    <p style="margin: 0 0 20px; color: var(--ink-2)">Klára žádá úhradu zálohy 8&nbsp;400&nbsp;Kč k&nbsp;objednávce JAVOR-&#8288;014 ještě dnes, na nový Účet&nbsp;B.</p>
+    <fieldset style="margin: 0; padding: 0; border: 0">
+      <legend style="padding: 0; margin-bottom: 8px; font-weight: 700">Vyber jednu možnost</legend>
+      <label class="ds-choice"><input type="radio" name="d" value="odsouhlasit"><span class="ds-choice__title">Odsouhlasit změnu</span><span class="ds-choice__desc">Uhradíš zálohu na Účet&nbsp;B a&nbsp;potvrdíš zítřejší dodání.</span></label>
+      <label class="ds-choice"><input type="radio" name="d" value="odmitnout"><span class="ds-choice__title">Odmítnout změnu</span><span class="ds-choice__desc">Na Účet&nbsp;B nic nepošleš.</span></label>
+      <label class="ds-choice"><input type="radio" name="d" value="pockat"><span class="ds-choice__title">Počkat</span><span class="ds-choice__desc">Zatím nerozhodneš. Dodání zůstane nepotvrzené.</span></label>
+    </fieldset>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 22px">
+      <button type="button" class="ds-btn" id="confirm" aria-disabled="true" aria-describedby="confirm-why">Potvrdit rozhodnutí</button>
+      <button type="submit" value="cancel" class="ds-btn ds-btn--secondary">Zpět k&nbsp;podkladům</button>
+      <span id="confirm-why" style="font-size: 14px; color: var(--ink-3)">Nejdřív vyber jednu možnost.</span>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(function () {
+  var I = {
+    email: 'M3 5.5h18v13H3z M3 6l9 7 9-7', priloha: 'M16 8.5l-6.4 6.4a1.9 1.9 0 0 0 2.7 2.7l6.5-6.5a3.7 3.7 0 0 0-5.3-5.3L6.8 12.5a5.5 5.5 0 0 0 7.8 7.8L20 15',
+    objednavka: 'M6 3h8.5L19 7.5V21H6z M14 3v5h5 M9 12.5h7 M9 16.5h7', kolega: 'M12 4.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z M5 20.5c.9-4 3.7-6 7-6s6.1 2 7 6',
+    telefon: 'M7 3.5h3l1.5 4-2.2 1.4a11 11 0 0 0 5.8 5.8l1.4-2.2 4 1.5v3a2 2 0 0 1-2 2C10.6 19 5 13.4 5 5.5a2 2 0 0 1 2-2z',
+    karta: 'M3 5.5h18v13H3z M8.5 9a2 2 0 1 1 0 4 2 2 0 0 1 0-4z M5.5 16c.6-1.5 1.7-2.3 3-2.3s2.4.8 3 2.3 M14 10h4.5 M14 13.5h4.5'
+  };
+  var NB = ' ';
+  var state = { open: '01', seen: { '01': true }, answers: {}, log: [{ when: 'dnes 16:42', what: 'Přišla nová zpráva', detail: 'Zítřejší dodání: změna platebních údajů' }], n: 0 };
+  var Q = {
+    '04': [{ q: 'Přišel ti taky e-mail od Kláry o změně účtu?', a: '„Jo, taky mi přišel ten stejný e-mail. Nic dalšího jsem neověřoval.“', who: 'Adam', act: 'Zeptat se Adama' }],
+    '05': [{ q: 'Platí údaje z přílohy?', a: '„Ano, údaje z přílohy platí. Pošli prosím 8' + NB + '400' + NB + 'Kč na Účet' + NB + 'B.“', who: 'Hlas na čísle z přílohy', act: 'Zavolat na číslo z přílohy' }],
+    '06': [
+      { q: 'Mluvím s Klárou z Ateliéru Javor?', a: '„Ano, u telefonu Klára z Ateliéru Javor.“', who: 'Klára, přes uložený kontakt', act: 'Přes uložený kontakt ověřit totožnost' },
+      { q: 'Platí pro JAVOR-014 záloha 8' + NB + '400' + NB + 'Kč na Účet' + NB + 'B?', a: '„Ne, účet jsme neměnili. Pro JAVOR-014 dál platí Účet' + NB + 'A. Na Účet' + NB + 'B nic neposílej.“', who: 'Klára, přes uložený kontakt', act: 'Přes uložený kontakt ověřit konkrétní změnu' }
+    ]
+  };
+  var TABS = [
+    { id: '01', label: 'Nová zpráva', icon: 'email', kind: 'e-mail' },
+    { id: '02', label: 'Nová příloha', icon: 'priloha', kind: 'pdf', act: 'Otevřít novou přílohu', detail: 'Platební údaje k objednávce JAVOR-014' },
+    { id: '03', label: 'Původní objednávka', icon: 'objednavka', kind: 'objednávka', act: 'Otevřít původní objednávku', detail: 'Objednávka JAVOR-014' },
+    { id: '04', label: 'Adam, kolega', icon: 'kolega', kind: 'kolega' },
+    { id: '05', label: 'Kontakt z přílohy', icon: 'telefon', kind: 'telefon', needs: '02' },
+    { id: '06', label: 'Uložený kontakt Kláry', icon: 'karta', kind: 'telefon', act: 'Otevřít uloženou kontaktní kartu', detail: 'Klára, Ateliér Javor' }
+  ];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function svg(d) { return '<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="' + d + '"/></svg>'; }
+  function status(t) {
+    if (t.needs && !state.seen[t.needs]) return { text: 'Nejprve potřebuješ podklad', done: false, locked: true };
+    var a = (state.answers[t.id] || []).length;
+    if (Q[t.id]) return a ? { text: a + (a === 1 ? ' odpověď' : ' odpovědi'), done: true } : { text: 'Zatím bez dotazu', done: false };
+    return state.seen[t.id] ? { text: t.id === '01' ? 'Přečteno' : 'Otevřeno', done: true } : { text: 'Neotevřeno', done: false };
+  }
+  function renderTabs() {
+    document.getElementById('tabs').innerHTML = TABS.map(function (t) {
+      var s = status(t);
+      return '<li><button type="button" class="ds-tab" data-tab="' + t.id + '"' + (state.open === t.id ? ' aria-current="true"' : '') + (s.locked ? ' aria-disabled="true"' : '') + ' data-done="' + s.done + '">' + svg(I[t.icon]) +
+        '<span class="ds-tab__label">' + esc(t.label) + '</span><span class="ds-tab__num">' + t.id + '</span><span class="ds-tab__status">' + esc(s.text) + '</span></button></li>';
+    }).join('');
+  }
+  function transcript(id) {
+    var list = Q[id] || [], got = state.answers[id] || [];
+    var done = got.map(function (i) { var x = list[i]; return '<span class="ds-transcript__k">otázka</span><p style="margin:0">' + esc(x.q) + '</p><span class="ds-transcript__k" style="padding-top:8px">odpověď</span><div><p class="ds-transcript__answer">' + esc(x.a) + '</p><p class="ds-transcript__who">' + esc(x.who) + '</p></div>'; }).join('');
+    var open = list.map(function (x, i) { return got.indexOf(i) < 0 ? '<button type="button" class="ds-btn ds-btn--secondary ds-btn--question" data-ask="' + id + ':' + i + '">' + esc(x.q) + '</button>' : ''; }).join('');
+    return '<h3 style="margin:32px 0 12px;font-family:var(--font-display);font-weight:700;font-size:22px">' + (id === '04' ? 'Rozhovor' : 'Přepis hovoru') + '</h3>' +
+      '<div class="ds-transcript" aria-live="polite">' + (done || '<p style="grid-column:1/-1;margin:0;color:var(--ink-3)">Zatím žádná otázka.</p>') + '</div>' +
+      (open ? '<div class="q"><span class="ds-mono" style="color:var(--ink-3)">' + (got.length ? 'další možná otázka' : 'zavolat a zeptat se') + '</span>' + open + '</div>' : '');
+  }
+  function body(t) {
+    var s = status(t);
+    if (s.locked) return '<p style="margin:0;color:var(--ink-2)">Nejprve potřebuješ podklad. Číslo se objeví, až otevřeš přílohu.</p>';
+    switch (t.id) {
+      case '01': return '<dl class="ds-fields" style="margin-bottom:20px"><div><dt>Od</dt><dd><strong>Klára</strong> &lt;klara@javor.example&gt;</dd></div><div><dt>Přijato</dt><dd>Dnes 16:42</dd></div></dl>' +
+        '<p style="font-size:var(--fs-body-lg)">Ahoj, jen prosím o úhradu zálohy 8' + NB + '400' + NB + 'Kč k objednávce JAVOR-014 ještě dnes. Změnili jsme účet, nové údaje posílám v příloze. Bez připsané platby už bohužel nemůžu zítřejší dodání potvrdit.</p><p style="font-size:var(--fs-body-lg)">Díky, Klára</p>' +
+        '<div class="q" style="flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center"><span><span class="ds-mono" style="display:block;color:var(--ink-3)">příloha</span><strong>nove-udaje-JAVOR-014.pdf</strong></span><button type="button" class="ds-btn ds-btn--secondary" data-tab-go="02">Otevřít přílohu</button></div>';
+      case '02': return '<dl class="ds-fields"><div><dt>Objednávka</dt><dd>JAVOR-014</dd></div><div><dt>Záloha</dt><dd><strong>8' + NB + '400' + NB + 'Kč, splatná dnes</strong></dd></div><div><dt>Nový účet</dt><dd><strong>Účet' + NB + 'B</strong> · [číslo účtu, simulované]</dd></div><div><dt>Kontakt pro dotazy</dt><dd>[telefon z přílohy] (simulovaný)</dd></div></dl>';
+      case '03': return '<dl class="ds-fields"><div><dt>Dodavatel</dt><dd>Ateliér Javor, Klára</dd></div><div><dt>Předmět</dt><dd>[položky objednávky z aplikace]</dd></div><div><dt>Záloha</dt><dd>8' + NB + '400' + NB + 'Kč</dd></div><div><dt>Platba na</dt><dd><strong>Účet' + NB + 'A</strong> · [číslo účtu, simulované]</dd></div><div><dt>Kontakt</dt><dd>000 555 101 (simulovaný), uložen do kontaktů</dd></div></dl>';
+      case '04': return transcript('04');
+      case '05': return '<dl class="ds-fields"><div><dt>Telefon</dt><dd><strong>[telefon z přílohy]</strong> (simulovaný)</dd></div><div><dt>Zdroj</dt><dd>nove-udaje-JAVOR-014.pdf</dd></div></dl>' + transcript('05');
+      case '06': return '<dl class="ds-fields"><div><dt>Telefon</dt><dd><strong class="ds-mono" style="font-size:16px">000 555 101</strong> (simulovaný)</dd></div><div><dt>Uloženo</dt><dd>Při původní objednávce, před třemi týdny</dd></div><div><dt>Poznámka</dt><dd>Kontakt pro JAVOR-014</dd></div></dl>' + transcript('06');
+    }
+  }
+  function renderSheet(focus) {
+    var t = TABS.filter(function (x) { return x.id === state.open; })[0];
+    var el = document.getElementById('sheet');
+    el.innerHTML = '<span class="ds-crop" aria-hidden="true"></span><div class="ds-sheet__meta"><span>list ' + t.id + ' · ' + t.kind + '</span><span></span></div><h2 class="ds-sheet__title" id="sheet-title" tabindex="-1">' + esc(t.label === 'Nová zpráva' ? 'Zítřejší dodání: změna platebních údajů' : t.label) + '</h2>' + body(t);
+    if (focus) document.getElementById('sheet-title').focus();
+  }
+  function renderLog() {
+    document.getElementById('log').innerHTML = state.log.map(function (l) { return '<li><span class="ds-log__when">' + esc(l.when) + '</span><span class="ds-log__what">' + esc(l.what) + '</span><span class="ds-log__detail">' + esc(l.detail) + '</span></li>'; }).join('');
+    var c = Object.keys(state.seen).length + Object.keys(state.answers).reduce(function (n, k) { return n + state.answers[k].length; }, 0);
+    var w = c === 1 ? ' získaný podklad' : (c < 5 ? ' získané podklady' : ' získaných podkladů');
+    document.getElementById('count').textContent = c + w;
+    document.getElementById('count2').textContent = c + (c === 1 ? ' podklad' : (c < 5 ? ' podklady' : ' podkladů'));
+  }
+  function act(what, detail) { state.n += 1; state.log.push({ when: 'úkon ' + state.n, what: what, detail: detail }); }
+  function open(id) {
+    var t = TABS.filter(function (x) { return x.id === id; })[0];
+    if (!state.seen[id] && t.act && !(t.needs && !state.seen[t.needs])) act(t.act, t.detail);
+    if (!(t.needs && !state.seen[t.needs]) && !Q[id]) state.seen[id] = true;
+    if (Q[id] && !state.seen[id] && !(t.needs && !state.seen[t.needs])) state.seen[id] = true;
+    state.open = id; renderTabs(); renderSheet(true); renderLog();
+  }
+  document.addEventListener('click', function (e) {
+    var tab = e.target.closest('[data-tab]');
+    if (tab) { open(tab.getAttribute('data-tab')); return; }
+    var go = e.target.closest('[data-tab-go]');
+    if (go) { open(go.getAttribute('data-tab-go')); return; }
+    var ask = e.target.closest('[data-ask]');
+    if (ask) {
+      var p = ask.getAttribute('data-ask').split(':'), id = p[0], i = +p[1], x = Q[id][i];
+      (state.answers[id] = state.answers[id] || []).push(i);
+      act(x.act, x.a); renderTabs(); renderSheet(false); renderLog();
+      var next = document.querySelector('#sheet [data-ask]') || document.getElementById('sheet-title');
+      next.focus();
+      return;
+    }
+    var od = e.target.closest('[data-open-decision]');
+    if (od) { lastTrigger = od; dlg.showModal(); document.getElementById('dec-title').focus(); }
+  });
+  var dlg = document.getElementById('decision'), lastTrigger = null, confirm = document.getElementById('confirm');
+  dlg.addEventListener('change', function () {
+    var v = dlg.querySelector('input[name=d]:checked');
+    confirm.setAttribute('aria-disabled', v ? 'false' : 'true');
+    document.getElementById('confirm-why').textContent = v ? '' : 'Nejdřív vyber jednu možnost.';
+  });
+  confirm.addEventListener('click', function () {
+    if (confirm.getAttribute('aria-disabled') === 'true') return;
+    alert('Ukázka: tady by následovalo odhalení (demo/odhaleni.html).');
+  });
+  dlg.addEventListener('close', function () { if (lastTrigger) lastTrigger.focus(); });
+  renderTabs(); renderSheet(false); renderLog();
+})();
+</script>
+</body>
+</html>

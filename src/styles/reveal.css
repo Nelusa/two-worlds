@@ -1,0 +1,35 @@
+/* Dva světy · B2 · choreografie odhalení
+   Bez JavaScriptu a při prefers-reduced-motion se ukáže rovnou koncový stav.
+   Animace se přidává jen jako vrstva navíc: obsah je v DOM od začátku.
+
+   Značky v HTML:
+     data-reveal-section             oddíl, který se spouští sám (vstupem do viditelné části)
+     data-reveal="slide|fade|print|grow"
+     data-reveal-delay="400"         zpoždění v ms od spuštění oddílu
+   Koncový stav (posuny desek atd.) je vždy v normálním CSS prvku, keyframes
+   popisují jen výchozí stav „from“. */
+
+@keyframes ds-slide { from { transform: none; } }
+@keyframes ds-fade  { from { opacity: 0; transform: translateY(10px); } }
+@keyframes ds-print { from { clip-path: inset(0 100% 0 0); } }
+@keyframes ds-grow  { from { transform: scaleY(0); } }
+
+/* Připraveno, ještě nespuštěno: výchozí stav bez probliknutí. */
+.ds-reveal-armed [data-reveal-section]:not(.is-playing) [data-reveal="fade"]  { opacity: 0; }
+.ds-reveal-armed [data-reveal-section]:not(.is-playing) [data-reveal="print"] { clip-path: inset(0 100% 0 0); }
+.ds-reveal-armed [data-reveal-section]:not(.is-playing) [data-reveal="slide"] { transform: none; }
+.ds-reveal-armed [data-reveal-section]:not(.is-playing) [data-reveal="grow"]  { transform: scaleY(0); }
+
+.is-playing [data-reveal] { animation-fill-mode: both; animation-delay: var(--ds-delay, 0ms); }
+.is-playing [data-reveal="slide"] { animation-name: ds-slide; animation-duration: var(--dur-slide, 900ms); animation-timing-function: var(--ease-plates); }
+.is-playing [data-reveal="fade"]  { animation-name: ds-fade;  animation-duration: var(--dur-fade, 500ms);  animation-timing-function: var(--ease-out); }
+.is-playing [data-reveal="print"] { animation-name: ds-print; animation-duration: var(--dur-print, 450ms); animation-timing-function: linear; }
+.is-playing [data-reveal="grow"]  { animation-name: ds-grow;  animation-duration: var(--dur-grow, 600ms);  animation-timing-function: var(--ease-out); transform-origin: top; }
+
+/* Pojistka: uživatel nechce pohyb → nic se nehýbe, nic není skryté. */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { animation: none !important; opacity: 1 !important; clip-path: none !important; }
+}
+/* Pozor: data-reveal="fade" animuje transform. Nedávej ho na prvek, který má vlastní transform
+   (např. ouško nad listem) – obal ho do <div data-reveal="fade">. */
+.ds-reveal-still [data-reveal] { animation: none !important; }

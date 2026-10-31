@@ -1,0 +1,100 @@
+/* Dva světy · směr B2 „Soutisk se spisem“ · tokeny
+   Pravidlo č. 1: barvy desek (--plate-*) se smějí objevit až po rozhodnutí
+   (odhalení, pokračování ve větvi, uložený průběh po odhalení). Nikdy dřív. */
+
+:root {
+  /* --- Papír a inkoust: celá hra do rozhodnutí --- */
+  --paper: #F3F0E8;          /* pozadí stránky */
+  --sheet: #FFFFFF;          /* otevřený list, dialog, otevřené ouško */
+  --tab: #E9E5DA;            /* zavřené ouško */
+  --tab-hover: #DDD8CA;      /* zavřené ouško při najetí */
+  --ink: #191B1D;            /* text, linky, primární tlačítko · 15,2 : 1 na papíře */
+  --ink-hover: #3A3C3F;      /* primární tlačítko při najetí */
+  --ink-active: #000000;     /* primární tlačítko při stisku */
+  --ink-2: #3A3A36;          /* běžný sekundární text */
+  --ink-3: #55544F;          /* popisky, metadata · 6,7 : 1 na papíře */
+  --ink-on-tab: #4A4945;     /* stav na zavřeném oušku */
+  --rule: #C9C5BA;           /* tenké oddělovače uvnitř listu (jen dekor) */
+  --disabled-bg: #D9D5CA;    /* nedostupné primární tlačítko */
+  --disabled-line: #6B6A65;  /* přerušovaný rámeček nedostupného prvku */
+  --ghost: #BDB9AE;          /* druhý otisk titulku před rozhodnutím (jen dekor) */
+  --logo-ghost: #9D9A91;     /* šedá deska v logu před rozhodnutím (jen dekor) */
+  --backdrop: rgba(25, 27, 29, 0.62); /* pozadí pod dialogem */
+
+  /* --- Desky: jen v odhalení, vždy se slovním označením --- */
+  --plate-1: #0C5551;        /* Realita 1 · Skutečná změna · text 7,6 : 1 na papíře */
+  --plate-1-wash: #DDEAE7;   /* plocha reality 1 */
+  --plate-2: #A2522F;        /* Realita 2 · Zneužitá schránka · text 4,9 : 1 na papíře */
+  --plate-2-wash: #F6E6DC;   /* plocha reality 2 */
+  /* deska 1 je záměrně tmavší než deska 2: liší se i světlostí, ne jen odstínem */
+
+  /* --- Písma --- */
+  --font-display: 'Bricolage Grotesque', 'Arial Narrow', system-ui, sans-serif;
+  --font-text: 'Atkinson Hyperlegible Next', 'Atkinson Hyperlegible', system-ui, sans-serif;
+  --font-mono: 'Atkinson Hyperlegible Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --fs-hero: clamp(88px, 15vw, 216px); /* Dva světy na úvodu */
+  --fs-reveal: clamp(72px, 10vw, 148px); /* Dvě reality */
+  --fs-clock: 112px;
+  --fs-h1: clamp(40px, 5vw, 72px);
+  --fs-h2: 48px;
+  --fs-quote: 34px;          /* odpověď v přepisu hovoru */
+  --fs-h3: 28px;
+  --fs-h4: 22px;
+  --fs-body-lg: 19px;        /* text e-mailu */
+  --fs-body: 17px;
+  --fs-small: 15px;
+  --fs-meta: 14px;           /* mono metadata */
+  --fs-micro: 13px;
+
+  --lh-tight: 0.95;
+  --lh-head: 1.1;
+  --lh-body: 1.5;
+  --ls-display: -0.035em;
+  --ls-hero: -0.05em;
+
+  /* --- Rozměry --- */
+  --radius: 0;
+  --border-thin: 1px;
+  --border: 2px;             /* list, ovladače */
+  --border-section: 4px;     /* oddíly, hlavička */
+  --control-h: 52px;
+  --control-h-sm: 44px;      /* nejmenší cíl dotyku */
+  --focus-width: 3px;
+  --focus-offset: 3px;
+  --crop-len: 12px;          /* ořezové značky listu */
+  --crop-gap: 8px;
+  --content-max: 1232px;
+  --gutter: clamp(16px, 5vw, 40px);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 40px;
+  --space-7: 56px;
+  --space-8: 80px;
+
+  /* --- Soutisk --- */
+  --offset-title: 5px;       /* posun desek u titulku; na mobilu 3px */
+  --offset-sheet: 40px;      /* posun otisků pod zprávou; na mobilu 12px */
+
+  /* --- Pohyb (viz reveal/reveal.css) --- */
+  --ease-plates: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-slide: 900ms;
+  --dur-fade: 500ms;
+  --dur-print: 450ms;
+  --dur-grow: 600ms;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --offset-title: 3px;
+    --offset-sheet: 12px;
+    --fs-h2: 34px;
+    --fs-quote: 25px;
+    --fs-clock: 44px;
+  }
+}

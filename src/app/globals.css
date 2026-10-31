@@ -1,0 +1,211 @@
+@import "tailwindcss";
+@import "../styles/fonts.css";
+@import "../styles/tokens.css";
+@import "../styles/components.css" layer(components);
+@import "../styles/reveal.css" layer(components);
+
+/*
+ * The design tokens live in src/styles/tokens.css (direction B2) and are the source of truth.
+ * Tailwind only exposes them under the same names, so utilities and the .ds-* classes agree.
+ * Plate colours (--plate-*) must never be used before the decision is confirmed.
+ */
+@theme inline {
+  --color-*: initial;
+  --color-paper: var(--paper);
+  --color-sheet: var(--sheet);
+  --color-tab: var(--tab);
+  --color-tab-hover: var(--tab-hover);
+  --color-ink: var(--ink);
+  --color-ink-hover: var(--ink-hover);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-ink-on-tab: var(--ink-on-tab);
+  --color-rule: var(--rule);
+  --color-disabled-bg: var(--disabled-bg);
+  --color-disabled-line: var(--disabled-line);
+  --color-ghost: var(--ghost);
+  --color-logo-ghost: var(--logo-ghost);
+  --color-plate-1: var(--plate-1);
+  --color-plate-1-wash: var(--plate-1-wash);
+  --color-plate-2: var(--plate-2);
+  --color-plate-2-wash: var(--plate-2-wash);
+
+  --font-*: initial;
+
+  --text-*: initial;
+  --text-hero: var(--fs-hero);
+  --text-reveal: var(--fs-reveal);
+  --text-clock: var(--fs-clock);
+  --text-h1: var(--fs-h1);
+  --text-h2: var(--fs-h2);
+  --text-quote: var(--fs-quote);
+  --text-h3: var(--fs-h3);
+  --text-h4: var(--fs-h4);
+  --text-body-lg: var(--fs-body-lg);
+  --text-body: var(--fs-body);
+  --text-small: var(--fs-small);
+  --text-meta: var(--fs-meta);
+  --text-micro: var(--fs-micro);
+
+  --leading-tight: var(--lh-tight);
+  --leading-head: var(--lh-head);
+  --leading-body: var(--lh-body);
+
+  --tracking-display: var(--ls-display);
+  --tracking-hero: var(--ls-hero);
+
+  --animate-enter: enter var(--dur-fade) var(--ease-out) both;
+  --animate-print: print var(--dur-print) var(--ease-out) both;
+
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  /* A new line appears the way the reveal prints its rows: wiped in from the left. */
+  @keyframes print {
+    from {
+      opacity: 0;
+      clip-path: inset(0 100% 0 0);
+    }
+  }
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+
+  --radius-*: initial;
+  --shadow-*: initial;
+
+  /* B2 switches layouts at 600 and 900 px; the .ds-* media queries use max-width, so ours start one pixel later. */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 37.5625rem;
+  --breakpoint-md: 56.3125rem;
+  --breakpoint-lg: 75rem;
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility font-text {
+  font-family: var(--font-text);
+}
+
+@utility font-mono {
+  font-family: var(--font-mono);
+}
+
+@utility grid-compare {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+/* A column that takes the rest and one that fits its content (stage header and its clock). */
+@utility grid-fill-auto {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+/* Workspace: tabs joined to the sheet, then the margin of the case file. */
+@utility grid-workspace {
+  grid-template-columns: 13rem minmax(0, 1fr);
+}
+
+@utility grid-workspace-wide {
+  grid-template-columns: 15.75rem minmax(0, 1fr) 22.25rem;
+}
+
+/* Reveal rows: action number, what happened and, on wide screens, the "same in both" mark. */
+@utility grid-step {
+  grid-template-columns: 5rem minmax(0, 1fr);
+}
+
+@utility grid-step-wide {
+  grid-template-columns: 8rem minmax(0, 1fr) auto;
+}
+
+/* Label column and value, as in an e-mail header. */
+@utility grid-label {
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+}
+
+/* A label column followed by two equal columns, e.g. the two cases on the intro. */
+@utility grid-label-pair {
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);
+}
+
+@utility border-section {
+  border-top: var(--border-section) solid var(--ink);
+}
+
+/* Room for the docked decision bar on narrow screens. */
+@utility pb-bar {
+  padding-bottom: 7rem;
+}
+
+@layer components {
+  /* The B2 artboards measure the content column without the gutters (1312 px at 1440). */
+  .ds-container {
+    box-sizing: content-box;
+  }
+
+  /* State changes of the B2 controls ease in instead of jumping; only colours, never layout. */
+  .ds-btn,
+  .ds-tab,
+  .ds-choice,
+  a,
+  button {
+    transition-property: background-color, color, border-color, text-decoration-color, transform;
+    transition-duration: 150ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  .page-transition main {
+    animation: var(--animate-enter);
+  }
+
+  /* A sheet opened from a tab only fades, it never moves: the tabs beside it stay put. */
+  .sheet-swap {
+    animation: fade 200ms var(--ease-out) both;
+  }
+
+  .ds-dialog[open] {
+    animation: var(--animate-enter);
+  }
+
+  .ds-dialog[open]::backdrop {
+    animation: fade var(--dur-fade) var(--ease-out) both;
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  ::selection {
+    background: var(--tab-hover);
+  }
+
+  /* Tailwind's preflight resets buttons to the default cursor. */
+  button:not(:disabled, [aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

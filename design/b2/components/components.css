@@ -1,0 +1,220 @@
+/* Dva světy · B2 · základní komponenty
+   Závisí na tokens/tokens.css a fonts/fonts.css.
+   Žádné zaoblení, žádné stíny, žádné gradienty. Stav je vždy i slovy. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--ink);
+  outline-offset: var(--focus-offset);
+}
+
+a { color: var(--ink); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 3px; }
+a:active { color: var(--ink-3); }
+
+.ds-container { max-width: calc(var(--content-max) + 2 * var(--gutter)); margin: 0 auto; padding: 0 var(--gutter); }
+.ds-mono { font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 400; }
+.ds-display { font-family: var(--font-display); font-weight: 800; letter-spacing: var(--ls-display); line-height: var(--lh-tight); }
+.ds-visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* --- Tlačítka ---
+   Nedostupné tlačítko používá aria-disabled="true" (ne disabled), aby zůstalo
+   dosažitelné klávesnicí a čtečka přečetla důvod uvedený vedle. */
+.ds-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3);
+  min-height: var(--control-h); padding: 0 22px;
+  border: 0; border-radius: var(--radius);
+  background: var(--ink); color: var(--sheet);
+  font: inherit; font-weight: 700; text-decoration: none; cursor: pointer;
+}
+.ds-btn:hover { background: var(--ink-hover); text-decoration: underline; text-underline-offset: 4px; }
+.ds-btn:active { background: var(--ink-active); transform: translateY(1px); }
+.ds-btn[aria-disabled="true"] { background: var(--disabled-bg); color: var(--ink-on-tab); cursor: not-allowed; text-decoration: none; transform: none; }
+
+.ds-btn--secondary { background: transparent; color: var(--ink); border: var(--border) solid var(--ink); }
+.ds-btn--secondary:hover { background: var(--tab); }
+.ds-btn--secondary:active { background: var(--disabled-bg); }
+.ds-btn--secondary[aria-disabled="true"] { background: transparent; border-style: dashed; border-color: var(--disabled-line); }
+
+.ds-btn--sm { min-height: var(--control-h-sm); padding: 0 16px; font-size: var(--fs-small); }
+.ds-btn--question { justify-content: flex-start; text-align: left; } /* otázka v listu = samostatný úkon */
+.ds-btn svg { width: 18px; height: 18px; flex: none; }
+
+/* --- Ouška podkladů ---
+   <nav aria-label="Podklady a kontakty"><ol class="ds-tabs">
+     <li><button class="ds-tab" aria-current="true">…</button></li> */
+.ds-tabs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.ds-tabs > li { margin-top: calc(-1 * var(--border)); }
+.ds-tab {
+  width: 100%; display: grid; grid-template-columns: 24px 1fr; gap: 2px 12px;
+  padding: 14px 16px; text-align: left; cursor: pointer;
+  background: var(--tab); color: var(--ink);
+  border: var(--border) solid var(--ink); border-right: 0;
+  font: inherit;
+}
+.ds-tab__label { font-weight: 700; font-size: 16px; line-height: 1.3; }
+.ds-tab__num { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--ink-3); padding-top: 1px; }
+.ds-tab__status { font-size: 14px; color: var(--ink-on-tab); display: flex; align-items: flex-start; gap: 6px; }
+.ds-tab__status::before { content: ""; flex: none; margin-top: 6px; width: 8px; height: 8px; box-sizing: border-box; border: 1.5px solid var(--ink); }
+.ds-tab[data-done="true"] .ds-tab__status::before { background: var(--ink); }
+.ds-tab:hover .ds-tab__label { text-decoration: underline; text-underline-offset: 3px; }
+.ds-tab:hover { background: var(--tab-hover); }
+.ds-tab:focus-visible { outline-offset: -7px; }
+.ds-tab[aria-current="true"] {
+  position: relative; z-index: 1;
+  width: calc(100% + var(--border)); margin-right: calc(-1 * var(--border));
+  background: var(--sheet); border-right: var(--border) solid var(--sheet);
+}
+.ds-tab[aria-current="true"] .ds-tab__num, .ds-tab[aria-current="true"] .ds-tab__status { color: var(--ink); }
+.ds-tab[aria-disabled="true"] { border-style: dashed; cursor: not-allowed; }
+
+/* Na úzkých displejích: ouška 3 × 2 nad listem, otevřené splývá s listem dole. */
+@media (max-width: 900px) {
+  .ds-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding-right: var(--border); }
+  .ds-tabs > li { margin: 0 calc(-1 * var(--border)) calc(-1 * var(--border)) 0; }
+  .ds-tab { height: 100%; grid-template-columns: 1fr; border-right: var(--border) solid var(--ink); padding: 10px 10px 12px; }
+  .ds-tab svg { display: none; }
+  .ds-tab[aria-current="true"] { width: 100%; margin: 0; border-right-color: var(--ink); border-bottom-color: var(--sheet); }
+}
+
+/* --- List (hlavní objekt obrazovky) --- */
+.ds-sheet { position: relative; background: var(--sheet); border: var(--border) solid var(--ink); padding: 36px clamp(20px, 4vw, 56px) 44px; }
+.ds-sheet__meta { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--font-mono); font-size: var(--fs-meta); }
+.ds-sheet__meta > :last-child { color: var(--ink-3); }
+.ds-sheet__title { margin: 18px 0 24px; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-h2); line-height: 0.98; letter-spacing: -0.03em; }
+/* Ouško nad listem (úvod, odhalení): <p class="ds-sheet__tab">list 01 · e-mail</p> uvnitř .ds-sheet */
+.ds-sheet__tab { position: absolute; left: 24px; top: 0; transform: translateY(-100%); margin: 0; background: var(--sheet); border: var(--border) solid var(--ink); border-bottom: 0; padding: 5px 14px 4px; font-family: var(--font-mono); font-size: var(--fs-meta); }
+
+/* Ořezové značky: <span class="ds-crop" aria-hidden="true"></span> jako první dítě listu. */
+.ds-crop {
+  position: absolute; inset: calc(-1 * (var(--crop-len) + var(--crop-gap))); pointer-events: none;
+  --c: var(--ink); --l: var(--crop-len);
+  background:
+    linear-gradient(var(--c), var(--c)) left  calc(var(--l) + var(--crop-gap)) top 0 / 1px var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) left 0 top calc(var(--l) + var(--crop-gap)) / var(--l) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) right calc(var(--l) + var(--crop-gap)) top 0 / 1px var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) right 0 top calc(var(--l) + var(--crop-gap)) / var(--l) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) left  calc(var(--l) + var(--crop-gap)) bottom 0 / 1px var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) left 0 bottom calc(var(--l) + var(--crop-gap)) / var(--l) 1px no-repeat,
+    linear-gradient(var(--c), var(--c)) right calc(var(--l) + var(--crop-gap)) bottom 0 / 1px var(--l) no-repeat,
+    linear-gradient(var(--c), var(--c)) right 0 bottom calc(var(--l) + var(--crop-gap)) / var(--l) 1px no-repeat;
+}
+
+/* Údaje v listu */
+.ds-fields { margin: 0; border-top: var(--border-section) solid var(--ink); }
+.ds-fields > div { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 11px 0; border-bottom: var(--border-thin) solid var(--rule); }
+.ds-fields > div:last-child { border-bottom-color: var(--ink); }
+.ds-fields dt { color: var(--ink-3); }
+.ds-fields dd { margin: 0; }
+@media (max-width: 600px) { .ds-fields > div { grid-template-columns: 1fr; gap: 0; } .ds-fields dt { font-size: 14px; } }
+
+/* Přepis hovoru: otázka a odpověď. Kontejner odpovědí má aria-live="polite". */
+.ds-transcript { display: grid; grid-template-columns: 90px 1fr; gap: 8px 18px; }
+.ds-transcript__k { font-family: var(--font-mono); font-size: var(--fs-meta); color: var(--ink-3); padding-top: 2px; }
+.ds-transcript__answer { margin: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-quote); line-height: 1.12; letter-spacing: -0.02em; text-wrap: pretty; }
+.ds-transcript__who { margin: 8px 0 0; font-size: var(--fs-small); color: var(--ink-3); }
+@media (max-width: 600px) { .ds-transcript { grid-template-columns: 1fr; } }
+
+/* --- Volby: přepínače (jedna odpověď) a zaškrtávací políčka (více odpovědí) --- */
+.ds-choice { display: grid; grid-template-columns: 24px 1fr; gap: 2px 14px; align-items: start; padding: 14px 16px; border: var(--border) solid var(--ink); cursor: pointer; }
+.ds-choice + .ds-choice { margin-top: calc(-1 * var(--border)); }
+.ds-choice input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--ink); }
+.ds-choice__title { font-weight: 700; }
+.ds-choice__desc { grid-column: 2; font-size: var(--fs-small); color: var(--ink-2); }
+.ds-choice:hover { background: var(--paper); }
+.ds-choice:has(input:checked) { position: relative; z-index: 1; border-width: 3px; padding: 13px 15px; background: var(--paper); }
+.ds-choice:has(input:focus-visible) { outline: var(--focus-width) solid var(--ink); outline-offset: var(--focus-offset); }
+.ds-choice input:focus-visible { outline: none; }
+.ds-choice--plain { border: 0; border-top: var(--border-thin) solid var(--rule); padding: 12px 0; }
+.ds-choice--plain + .ds-choice--plain { margin-top: 0; }
+.ds-choice--plain:has(input:checked) { border-width: 0; border-top-width: 1px; padding: 12px 0; background: none; }
+
+/* --- Sekce s tlustou linkou nahoře (okraj spisu) --- */
+.ds-section { border-top: var(--border-section) solid var(--ink); padding-top: 14px; }
+.ds-section__title { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-h3); line-height: 1.05; letter-spacing: -0.02em; }
+
+/* --- Mapa původu: vnořené seznamy, čáry jsou čistě dekor --- */
+.ds-origin, .ds-origin ul { list-style: none; margin: 6px 0 0 6px; padding: 0; border-left: var(--border) solid var(--ink); }
+.ds-origin li { position: relative; padding: 8px 0 2px 22px; }
+.ds-origin li::before { content: ""; position: absolute; left: 0; top: 20px; width: 14px; border-top: var(--border) solid var(--ink); }
+.ds-origin__name { display: block; font-weight: 700; }
+.ds-origin__how { display: block; font-size: 14px; color: var(--ink-3); }
+
+/* --- Historie úkonů (záznam spisu) --- */
+.ds-log { list-style: none; margin: 0; padding: 0; }
+.ds-log > li { display: grid; grid-template-columns: 120px minmax(0, 1fr) minmax(0, 1.4fr); gap: 8px 24px; padding: 14px 0; border-bottom: var(--border-thin) solid var(--ink); }
+.ds-log__when { font-family: var(--font-mono); font-size: var(--fs-meta); padding-top: 3px; }
+.ds-log__what { font-weight: 700; }
+.ds-log__detail { color: var(--ink-2); font-size: 16px; }
+@media (max-width: 900px) { .ds-log > li { grid-template-columns: 96px 1fr; } .ds-log__detail { grid-column: 2; } }
+
+/* --- Dialog --- */
+.ds-dialog { width: min(680px, calc(100% - 32px)); max-height: calc(100% - 64px); overflow: auto; padding: 32px 40px 36px; background: var(--sheet); color: var(--ink); border: var(--border) solid var(--ink); border-radius: 0; }
+.ds-dialog::backdrop { background: var(--backdrop); }
+.ds-dialog__close { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; background: transparent; border: 0; color: var(--ink); cursor: pointer; }
+@media (max-width: 600px) {
+  .ds-dialog { width: 100%; max-width: none; height: 100%; max-height: none; margin: 0; padding: 0 16px 16px; border: 0; }
+}
+
+/* --- Reality (jen po rozhodnutí) --- */
+.ds-reality { font-weight: 700; display: inline-flex; align-items: center; gap: 8px; }
+.ds-reality::before { content: ""; width: 12px; height: 12px; background: currentColor; flex: none; }
+.ds-reality--1 { color: var(--plate-1); }
+.ds-reality--2 { color: var(--plate-2); }
+.ds-plate-rule--1 { border-top: var(--border-section) solid var(--plate-1); }
+.ds-plate-rule--2 { border-top: var(--border-section) solid var(--plate-2); }
+.ds-wash--1 { background: var(--plate-1-wash); }
+.ds-wash--2 { background: var(--plate-2-wash); }
+.ds-same { display: inline-flex; align-items: center; gap: 10px; font-size: var(--fs-small); }
+.ds-same::before { content: ""; width: 26px; height: 18px; flex: none;
+  background: linear-gradient(90deg, var(--plate-1) 0 38%, #081B0F 38% 62%, var(--plate-2) 62% 100%); }
+.ds-label-dark { display: inline-block; background: var(--ink); color: var(--sheet); font-weight: 700; padding: 8px 16px; }
+
+/* --- Soutisk titulku ---
+   <h1 class="ds-overprint">
+     <span class="ds-overprint__plate" aria-hidden="true">Dvě reality</span>
+     <span class="ds-overprint__text">Dvě reality</span>
+   </h1>
+   Před rozhodnutím přidej .ds-overprint--ink (šedý otisk, žádné barvy desek). */
+.ds-overprint { position: relative; display: inline-block; margin: 0; font-family: var(--font-display); font-weight: 800; font-size: var(--fs-reveal); line-height: 0.86; letter-spacing: -0.03em; white-space: nowrap; }
+.ds-overprint__plate, .ds-overprint__text { display: block; mix-blend-mode: multiply; }
+.ds-overprint__plate { position: absolute; left: 0; top: 0; color: var(--plate-1); transform: translateX(calc(-1 * var(--offset-title))); }
+.ds-overprint__text { position: relative; color: var(--plate-2); transform: translateX(var(--offset-title)); }
+.ds-overprint--ink { font-size: var(--fs-hero); letter-spacing: var(--ls-hero); }
+.ds-overprint--ink .ds-overprint__plate { color: var(--ghost); transform: translate(7px, 7px); mix-blend-mode: normal; }
+.ds-overprint--ink .ds-overprint__text { color: var(--ink); transform: none; }
+@media (max-width: 600px) { .ds-overprint { white-space: normal; } .ds-overprint--ink .ds-overprint__plate { transform: translate(4px, 5px); } }
+
+/* Otisky desek pod zprávou v odhalení:
+   <div class="ds-press"><div class="ds-press__plate ds-press__plate--1" aria-hidden="true"></div>
+   <div class="ds-press__plate ds-press__plate--2" aria-hidden="true"></div><article class="ds-sheet">…</article></div> */
+.ds-press { position: relative; }
+.ds-press__plate { position: absolute; inset: 0; mix-blend-mode: multiply; border: var(--border) solid; }
+.ds-press__plate--1 { border-color: var(--plate-1); background: var(--plate-1-wash); transform: translate(calc(-1 * var(--offset-sheet)), 14px); }
+.ds-press__plate--2 { border-color: var(--plate-2); background: var(--plate-2-wash); transform: translate(var(--offset-sheet), 14px); }
+.ds-press > .ds-sheet { position: relative; }
+
+/* Soutisková linka (šev): <div class="ds-seam" aria-hidden="true"></div> v relativním kontejneru. */
+.ds-seam { position: absolute; left: 50%; top: 0; bottom: 0; border-left: 1px solid var(--ink); }
+.ds-seam::before, .ds-seam::after { content: ""; position: absolute; left: -12px; width: 24px; border-top: 1px solid var(--ink); }
+.ds-seam::before { top: 24px; }
+.ds-seam::after { bottom: 0; }
+
+/* Úzká varianta historie (v postranním sloupci) */
+.ds-log--narrow > li { grid-template-columns: 76px 1fr; gap: 4px 12px; }
+.ds-log--narrow .ds-log__detail { grid-column: 2; font-size: 15px; }
+
+/* Nadpisy, na které se fokus přesouvá programově (tabindex="-1"), nemají rámeček. */
+[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
+h1[tabindex="-1"]:focus, h2[tabindex="-1"]:focus { outline: none; }

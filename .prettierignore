@@ -1,0 +1,10 @@
+.next
+node_modules
+playwright-report
+test-results
+# Copied from the B2 design package; keep them byte-for-byte comparable with design/b2.
+src/styles/tokens.css
+src/styles/components.css
+src/styles/reveal.css
+src/styles/fonts.css
+design

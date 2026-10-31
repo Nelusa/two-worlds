@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dvě reality · Dva světy (ukázka B2)</title>
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../components/components.css">
+<link rel="stylesheet" href="../reveal/reveal.css">
+<style>
+  .hdr { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 22px 0; border-bottom: var(--border-section) solid var(--ink); }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand b { font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: -0.02em; }
+  .nav { display: flex; gap: 28px; font-weight: 700; font-size: 16px; }
+  .nav a { text-decoration: none; padding: 6px 0; }
+  .hero { display: flex; flex-wrap: wrap; gap: 24px 64px; align-items: flex-end; justify-content: space-between; padding: 48px 0 24px; }
+  .hero p { margin: 0; max-width: 460px; color: var(--ink-2); font-size: 18px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .sec { padding-top: 80px; }
+  .sec h2 { margin: 0; padding: 12px 0; border-top: var(--border-section) solid var(--ink); display: flex; gap: 14px; align-items: baseline; font-family: var(--font-display); font-weight: 800; font-size: 32px; letter-spacing: -0.02em; }
+  .sec h2 .ds-mono { font-size: 16px; }
+  .stage { position: relative; padding: 48px 0 8px; }
+  .msg { position: relative; max-width: 560px; margin: 0 auto; }
+  .msg .ds-sheet { padding: 24px 30px 26px; }
+  .msg h3 { margin: 16px 0 10px; font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1.12; }
+  .grid2 { position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr)); gap: 40px 80px; margin-top: 64px; }
+  .reality { padding-top: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--paper); }
+  .reality h3 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 36px; line-height: 1; letter-spacing: -0.025em; }
+  .reality dl { margin: 6px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .reality dt { font-size: 15px; color: var(--ink-3); } .reality dd { margin: 0; }
+  .attempt { position: absolute; right: 0; top: -4px; translate: 0 -100%; margin: 0; }
+  .rows { list-style: none; margin: 0; padding: 0; }
+  .rows li { display: grid; grid-template-columns: 96px 1fr auto; gap: 20px; align-items: start; padding: 18px 0; border-bottom: 1px solid var(--ink); }
+  .num { font-family: var(--font-display); font-weight: 800; font-size: 44px; line-height: 0.9; letter-spacing: -0.04em; }
+  .rows b { display: block; font-size: 19px; line-height: 1.35; }
+  .rows small { display: block; font-size: 15px; color: var(--ink-3); }
+  .split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .split > div { padding: 22px 28px 24px; }
+  .split p { margin: 0; }
+  .quote { font-family: var(--font-display); font-weight: 600; font-size: 26px; line-height: 1.15; letter-spacing: -0.015em; margin: 8px 0 !important; }
+  .diverge { position: relative; display: flex; justify-content: center; padding: 36px 0 20px; }
+  @media (max-width: 700px) {
+    .rows li { grid-template-columns: 44px 1fr; } .rows .ds-same { grid-column: 2; }
+    .split { grid-template-columns: 1fr; }
+    .stage .ds-seam, .diverge .ds-seam { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="ds-container" data-reveal-root>
+  <header class="hdr">
+    <a class="brand" href="#"><img src="../icons/logo-po-rozhodnuti.svg" alt="" width="30" height="22"><b>Dva světy</b><span class="ds-mono" style="color: var(--ink-3)">simulace</span></a>
+    <nav class="nav" aria-label="Hlavní"><a href="#">Princip a omezení</a><a href="#">Uložený průběh</a></nav>
+  </header>
+
+  <section class="hero" data-reveal-section>
+    <div>
+      <p class="ds-mono" style="color: var(--ink); margin-bottom: 14px">spis č. 1 · odhalení</p>
+      <h1 class="ds-overprint" id="odhaleni-nadpis" tabindex="-1">
+        <span class="ds-overprint__plate" aria-hidden="true" data-reveal="slide" data-reveal-delay="400">Dvě reality</span>
+        <span class="ds-overprint__text" data-reveal="slide" data-reveal-delay="400">Dvě reality</span>
+      </h1>
+    </div>
+    <div>
+      <p>Stejná zpráva přišla ve dvou připravených realitách. Tvůj pokus proběhl v jedné z nich. Teď uvidíš, co by tytéž úkony ukázaly v té druhé.</p>
+      <div class="controls">
+        <button type="button" class="ds-btn ds-btn--secondary ds-btn--sm" id="replay">Přehrát odhalení znovu</button>
+        <button type="button" class="ds-btn ds-btn--secondary ds-btn--sm" id="still" aria-pressed="false">Náhled bez pohybu</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s1" data-reveal-section>
+    <h2 id="s1"><span class="ds-mono">1</span>Stejná zpráva</h2>
+    <div class="stage">
+      <div class="ds-seam" aria-hidden="true" data-reveal="grow"></div>
+      <div class="msg ds-press">
+        <div class="ds-press__plate ds-press__plate--1" aria-hidden="true" data-reveal="slide" data-reveal-delay="700"></div>
+        <div class="ds-press__plate ds-press__plate--2" aria-hidden="true" data-reveal="slide" data-reveal-delay="700"></div>
+        <article class="ds-sheet" aria-label="Zpráva, stejná v obou realitách">
+          <p class="ds-sheet__tab">list 01 · e-mail</p>
+          <p class="ds-mono" style="margin: 0 0 12px; text-align: center; font-size: 13px">stejné v obou realitách, včetně adresy, přílohy a času</p>
+          <p style="margin: 0; padding-bottom: 12px; border-bottom: 1px solid var(--ink); font-size: 15px"><strong>Klára</strong> &lt;klara@javor.example&gt; · <span class="ds-mono">dnes 16:42</span></p>
+          <h3>Zítřejší dodání: změna platebních údajů</h3>
+          <p style="margin: 0 0 10px; font-size: 16px">Ahoj, jen prosím o úhradu zálohy 8&nbsp;400&nbsp;Kč k&nbsp;objednávce JAVOR-&#8288;014 ještě dnes. Změnili jsme účet, nové údaje posílám v&nbsp;příloze. Bez připsané platby už bohužel nemůžu zítřejší dodání potvrdit.</p>
+          <p style="margin: 0; font-size: 16px">Díky, Klára</p>
+        </article>
+      </div>
+      <div class="grid2">
+        <div class="reality ds-plate-rule--1" data-reveal="fade" data-reveal-delay="1500">
+          <p class="ds-reality ds-reality--1" style="margin: 0">Realita 1 · Skutečná změna</p>
+          <h3>Klára účet opravdu změnila</h3>
+          <dl><div><dt>Kdo zprávu ve skutečnosti poslal</dt><dd><strong>Klára z&nbsp;Ateliéru Javor</strong></dd></div>
+          <div><dt>Co platí</dt><dd>Ateliér Javor změnil banku. Pro JAVOR-&#8288;014 je nově oprávněným cílem Účet&nbsp;B.</dd></div></dl>
+        </div>
+        <div style="position: relative" data-reveal="fade" data-reveal-delay="1500">
+          <p class="ds-label-dark attempt" style="font-size: 14px; padding: 6px 12px">Tady proběhl tvůj pokus</p>
+          <div class="reality ds-plate-rule--2">
+            <p class="ds-reality ds-reality--2" style="margin: 0">Realita 2 · Zneužitá schránka</p>
+            <h3>Schránka dodavatele je zneužitá</h3>
+            <dl><div><dt>Kdo zprávu ve skutečnosti poslal</dt><dd><strong>Útočník, který ovládl schránku klara@javor.example</strong></dd></div>
+            <div><dt>Co platí</dt><dd>Změnu poslal útočník ze zneužité schránky. Oprávněným cílem zůstává Účet&nbsp;A. Účet&nbsp;B patří útočníkovi.</dd></div></dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s2" data-reveal-section>
+    <h2 id="s2"><span class="ds-mono">2</span>Tvoje úkony v obou realitách</h2>
+    <p style="margin: 0 0 24px; max-width: 640px; color: var(--ink-2)">Tvoje skutečné úkony se přehrály i v druhé realitě, ale jen do první odpovědi, která by se lišila.</p>
+    <ol class="rows">
+      <li data-reveal="print" data-reveal-delay="0"><span class="num">01</span><span><small class="ds-mono">otevřít novou přílohu</small><b>Platební údaje k&nbsp;objednávce JAVOR-&#8288;014</b><small>Nová příloha</small></span><span class="ds-same">Stejně v obou realitách</span></li>
+      <li data-reveal="print" data-reveal-delay="200"><span class="num">02</span><span><small class="ds-mono">zeptat se Adama</small><b>„Jo, taky mi přišel ten stejný e-&#8288;mail. Nic dalšího jsem neověřoval.“</b><small>Adam</small></span><span class="ds-same">Stejně v obou realitách</span></li>
+      <li data-reveal="print" data-reveal-delay="400"><span class="num">03</span><span><small class="ds-mono">zavolat na číslo z přílohy</small><b>„Ano, údaje z&nbsp;přílohy platí. Pošli prosím 8&nbsp;400&nbsp;Kč na Účet&nbsp;B.“</b><small>Hlas na čísle z&nbsp;přílohy</small></span><span class="ds-same">Stejně v obou realitách</span></li>
+    </ol>
+    <div class="diverge"><div class="ds-seam" aria-hidden="true"></div><h3 class="ds-label-dark" style="position: relative; margin: 0; font-size: 17px" data-reveal="fade" data-reveal-delay="700">Tady se získané informace rozcházejí</h3></div>
+    <p style="margin: 0 0 14px; display: flex; gap: 20px; align-items: baseline"><span class="num">04</span><span class="ds-mono" style="color: var(--ink-3)">přes uložený kontakt ověřit konkrétní změnu</span></p>
+    <div class="split">
+      <div class="ds-wash--1 ds-plate-rule--1" data-reveal="print" data-reveal-delay="1000"><p class="ds-reality ds-reality--1" style="font-size: 15px">Skutečná změna</p><p class="quote">„Ano, k&nbsp;JAVOR-&#8288;014 platí záloha 8&nbsp;400&nbsp;Kč a&nbsp;nový Účet&nbsp;B.“</p><p style="font-size: 15px; color: var(--ink-2)">Klára, přes uložený kontakt</p></div>
+      <div class="ds-wash--2 ds-plate-rule--2" data-reveal="print" data-reveal-delay="1000"><p class="ds-reality ds-reality--2" style="font-size: 15px">Zneužitá schránka · tvůj pokus</p><p class="quote">„Ne, účet jsme neměnili. Pro JAVOR-&#8288;014 dál platí Účet&nbsp;A. Na Účet&nbsp;B nic neposílej.“</p><p style="font-size: 15px; color: var(--ink-2)">Klára, přes uložený kontakt</p></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s3" data-reveal-section style="padding-bottom: 88px">
+    <h2 id="s3"><span class="ds-mono">3</span>Rozhodnutí a důsledky</h2>
+    <div class="grid2" style="margin-top: 24px" data-reveal="fade" data-reveal-delay="0">
+      <div class="ds-plate-rule--1" style="padding-top: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+        <p class="ds-reality ds-reality--1" style="margin: 0; font-size: 15px">Skutečná změna</p>
+        <h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 30px; line-height: 1.02">Tady se získané informace rozcházejí</h3>
+        <p style="margin: 0; color: var(--ink-2)">V&nbsp;této realitě bys dostal/a jinou odpověď. Tvoje rozhodnutí z&nbsp;prvního pokusu se sem nepřenáší, protože jsi ho dělal/a po jiné informaci.</p>
+        <a class="ds-btn" href="#">Pokračovat v&nbsp;této větvi <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 12h15 M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="ds-plate-rule--2" style="padding-top: 16px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start">
+        <p class="ds-reality ds-reality--2" style="margin: 0; font-size: 15px">Zneužitá schránka · tvůj pokus</p>
+        <p style="margin: 0; color: var(--ink-2)">Tvoje rozhodnutí: Odmítnout změnu</p>
+        <h3 style="margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 30px; line-height: 1.02">Změna odmítnuta</h3>
+        <p style="margin: 0; color: var(--ink-2)">Neoprávněná změna se neprovedla. Peníze neodešly na Účet&nbsp;B.</p>
+        <a href="#" style="font-weight: 700; padding: 8px 0">Zkusit tuto větev znovu od rozdělení</a>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="../reveal/reveal.js"></script>
+<script>
+  var root = document.querySelector('[data-reveal-root]');
+  DvaSvetyReveal.init(root, { focus: '#odhaleni-nadpis' });
+  document.getElementById('replay').addEventListener('click', function () { DvaSvetyReveal.replay(root); });
+  var still = document.getElementById('still');
+  still.addEventListener('click', function () {
+    var on = still.getAttribute('aria-pressed') !== 'true';
+    still.setAttribute('aria-pressed', String(on));
+    still.textContent = on ? 'Zapnout pohyb' : 'Náhled bez pohybu';
+    DvaSvetyReveal.setStill(root, on);
+  });
+</script>
+</body>
+</html>
