@@ -64,9 +64,9 @@ export default function HomePage() {
                   "Krátká hra o zprávě, která existuje ve dvou realitách. Ty nevíš, ve které hraješ.",
                 )}
               </p>
-              <p className="mt-4 border-l-4 border-ink bg-paper pl-4 leading-body font-bold sm:bg-transparent">
+              <p className="mt-4 border-l-4 border-ink bg-paper pl-4 leading-body sm:bg-transparent">
                 {typography(
-                  "AI dnes napíše bezchybnou zprávu i napodobí hlas. Podvod proto nepoznáš podle toho, jak zpráva vypadá, ale podle toho, jak ji ověříš.",
+                  "AI dnes napíše bezchybnou zprávu i napodobí hlas. Pouhý vzhled a bezchybný jazyk proto nestačí ke spolehlivému ověření požadavku.",
                 )}
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">

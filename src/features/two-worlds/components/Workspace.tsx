@@ -10,7 +10,7 @@ import { ActionHistory } from "./ActionHistory";
 import { DecisionDialog } from "./DecisionDialog";
 import { HowToPlay } from "./HowToPlay";
 import { PanelView } from "./PanelView";
-import { bodyHeadline, panelOf, plural, splitStoryTime } from "./presentation";
+import { bodyHeadline, panelOf, sourceCount, splitStoryTime } from "./presentation";
 import { ProvenanceMap } from "./ProvenanceMap";
 import { SourceList } from "./SourceList";
 import { StageHeader, StoryClock } from "./StageHeader";
@@ -32,17 +32,16 @@ const STEP_LABEL: Record<Run["step"], string | null> = {
   transfer: "Nový případ",
 };
 
-const countLabel = (count: number) =>
-  count === 0
-    ? "Zatím žádný podklad"
-    : plural(count, "získaný podklad", "získané podklady", "získaných podkladů");
-
 export function Workspace({ run, onPerform, onDecide, onBackToReveal }: WorkspaceProps) {
   const content = CASES[run.caseId];
   const message = getVariant(content, run.setup.variantId);
   const observations = observeAll(content, run.actions, run.setup);
   const provenance = buildProvenance(content, observations);
-  const [selected, setSelected] = useState<PanelId>(content.panels[0].id);
+  // A branch opens on the answer that differs from the first attempt, not on the e-mail.
+  const [selected, setSelected] = useState<PanelId>(() => {
+    const changed = run.step === "branch" ? run.actions[run.lockedCount - 1] : undefined;
+    return (changed && panelOf(content, changed)?.id) || content.panels[0].id;
+  });
   const [latest, setLatest] = useState<ActionId | null>(null);
   const [deciding, setDeciding] = useState(false);
   const [focusPanel, setFocusPanel] = useState(false);
@@ -58,8 +57,7 @@ export function Workspace({ run, onPerform, onDecide, onBackToReveal }: Workspac
   // In a branch the reality is already known: the inherited answer that differed is marked.
   const branchWorld = run.step === "branch" ? run.setup.world : null;
   const divergentAction = branchWorld ? (run.actions[run.lockedCount - 1] ?? null) : null;
-  // The incoming message is always on the map; everything else was obtained by the player.
-  const obtained = countLabel(provenance.nodes.length - 1);
+  const available = `${sourceCount(provenance.nodes.length)} k dispozici`;
 
   const perform = (actionId: ActionId) => {
     const panel = panelOf(content, actionId);
@@ -120,7 +118,7 @@ export function Workspace({ run, onPerform, onDecide, onBackToReveal }: Workspac
         aside={<StoryClock time={time} note={`${day} · ${content.clockNote}`} />}
       >
         {!branchWorld && (
-          <p className="max-w-160 border-l-4 border-ink pl-4 font-bold">
+          <p className="max-w-160 border-l-4 border-ink pl-4">
             Zprávu mohl napsat skutečný odesílatel, nebo někdo, kdo se za něj s pomocí AI vydává.
             Hra to ví, ty zatím ne.
           </p>
@@ -132,8 +130,8 @@ export function Workspace({ run, onPerform, onDecide, onBackToReveal }: Workspac
         {announcement}
       </p>
 
-      <div className="ds-container grid pt-10 pb-bar sm:pb-20 md:grid-workspace md:pt-12 lg:grid-workspace-wide">
-        <div className="min-w-0 md:pt-15">
+      <div className="ds-container grid pt-8 pb-bar sm:pb-20 md:grid-workspace lg:grid-workspace-wide">
+        <div className="min-w-0 md:pt-10">
           <SourceList content={content} done={run.actions} selected={panel.id} onSelect={select} />
         </div>
         <PanelView
@@ -155,9 +153,7 @@ export function Workspace({ run, onPerform, onDecide, onBackToReveal }: Workspac
             <h2 id="decision-heading" className="ds-section__title mt-2">
               {branchWorld ? "Rozhodnutí v této větvi" : "Rozhodnutí"}
             </h2>
-            <p className="mt-4 mb-5 text-small leading-body text-ink-2">
-              {obtained}. Rozhodnout můžeš kdykoli, ověření není podmínkou.
-            </p>
+            <p className="mt-4 mb-5 text-small leading-body text-ink-2">{available}</p>
             {decideButton("w-full sm:w-auto lg:w-full")}
           </section>
           <ProvenanceMap content={content} observations={observations} />
@@ -173,11 +169,9 @@ export function Workspace({ run, onPerform, onDecide, onBackToReveal }: Workspac
         </div>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-30 border-t-4 border-ink bg-paper sm:hidden">
+      <div className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t-4 border-ink bg-paper sm:hidden">
         <div className="ds-container flex items-center justify-between gap-4 py-3">
-          <p className="text-small">
-            {plural(provenance.nodes.length - 1, "podklad", "podklady", "podkladů")}
-          </p>
+          <p className="text-small">{sourceCount(provenance.nodes.length)}</p>
           {decideButton("")}
         </div>
       </div>

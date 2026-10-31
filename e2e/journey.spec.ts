@@ -79,7 +79,10 @@ test("fraudulent world: full journey from intro to the final card", async ({ pag
   const history = page.getByRole("region", { name: "Historie úkonů" });
   await expect(history.getByText("Stejně v obou realitách")).toHaveCount(5);
   await expect(history.getByText("jen v realitě 1")).toHaveCount(1);
-  await openSource(page, "Uložený kontakt Kláry");
+  // The branch opens on the answer that changed, not on the e-mail.
+  await expect(
+    page.getByRole("heading", { level: 2, name: "Uložený kontakt Kláry" }),
+  ).toBeVisible();
   await expect(page.getByText("Jiná odpověď než v tvém pokusu")).toBeVisible();
   await expect(
     page.getByText(/Ano, k\sJAVOR-.?014 platí záloha 8\s400\sKč a\snový Účet\sB/).first(),
@@ -138,7 +141,7 @@ test("fraudulent world: full journey from intro to the final card", async ({ pag
   await expect(page.getByText(/Ano, PREDANI-.?026 vyzvedneme zítra/).first()).toBeVisible();
   await decide(page, "Přijmout Místo B");
   await revealAll(page);
-  await expect(page.getByText("Požadavek vyřízen")).toBeVisible();
+  await expect(page.getByText("Požadavek vyřízen").first()).toBeVisible();
   await page.getByRole("button", { name: "Zobrazit závěrečnou kartu" }).click();
 
   await expect(page.getByRole("heading", { level: 1, name: "Můj ověřovací postup" })).toBeVisible();
@@ -174,9 +177,9 @@ test("legitimate world: lucky unverified approval is not called a good procedure
   await decide(page, "Odsouhlasit nové údaje");
   await revealAll(page);
   await expect(
-    page.getByText("Stejné podklady, tedy stejné rozhodnutí v obou realitách"),
+    page.getByText("Získané informace obě reality nerozlišily", { exact: false }),
   ).toBeVisible();
-  await expect(page.getByText("Požadavek vyřízen")).toBeVisible();
+  await expect(page.getByText("Požadavek vyřízen").first()).toBeVisible();
   await expect(page.getByText("Provedena neoprávněná změna")).toBeVisible();
   await expect(page.getByText("Odsouhlasení bez nezávislého potvrzení")).toBeVisible();
   await expect(page.getByRole("button", { name: "Pokračovat v této větvi" })).toHaveCount(0);

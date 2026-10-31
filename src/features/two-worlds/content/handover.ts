@@ -17,7 +17,7 @@ export const HANDOVER_CASE: CaseContent = {
   storyTime: "Dnes 18:05",
   clockNote: "Vyzvednutí zítra v 9:00",
   context:
-    "Po komunitním večeru se vrací zapůjčené ozvučení. Dopravce Lipka ho má zítra v 9:00 vyzvednout na Místě A. Než odejdeš domů, přijde zpráva.",
+    "Dopravce Lipka má zítra v 9:00 vyzvednout zapůjčené ozvučení na Místě A. Než odejdeš domů, přijde zpráva.",
   changeLabel: "vyzvednutí PREDANI-026 na Místě B",
   variants: [
     {

@@ -61,9 +61,13 @@ test("progress survives a refresh mid-case and after the decision", async ({ pag
     .getByRole("button", { name: /Nová příloha/ })
     .click();
   await expect(historyItems(page)).toHaveCount(3);
+  // One count everywhere: the message, the attachment and the order are three sources.
+  const decision = page.getByRole("region", { name: "Rozhodnutí" });
+  await expect(decision).toContainText("3 podklady k dispozici");
 
   await page.reload();
   await expect(historyItems(page)).toHaveCount(3);
+  await expect(decision).toContainText("3 podklady k dispozici");
   await expect(sources(page).getByRole("button", { name: /Původní objednávka/ })).toContainText(
     "Otevřeno",
   );

@@ -1,7 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import type { Replay } from "../engine/replay";
 import { getAction } from "../engine/scenario";
 import type { Body, CaseContent, Observation, WorldId } from "../engine/types";
 import { typography } from "../utils/typography";
+import { TEXT_BUTTON } from "./styles";
 import { reveal } from "./useRevealChoreography";
 import { WORLD_PLATE, WorldBadge, WORLDS } from "./WorldBadge";
 
@@ -10,6 +14,8 @@ interface ComparisonGridProps {
   replay: Replay;
   /** The world the attempt was played in; null for a procedure that runs fully in both. */
   playedWorld: WorldId | null;
+  /** Fold the leading rows that matched in both realities into one line the player can open. */
+  collapseShared?: boolean;
 }
 
 const PRINT_STEP = 200;
@@ -71,20 +77,60 @@ function Cell({
  * Row by row comparison along the seam. While the answers match, one row spans both realities;
  * at the first different answer the row splits and both cells print at the same moment.
  */
-export function ComparisonGrid({ content, replay, playedWorld }: ComparisonGridProps) {
+export function ComparisonGrid({
+  content,
+  replay,
+  playedWorld,
+  collapseShared = false,
+}: ComparisonGridProps) {
   const stoppedIndex = replay.divergenceIndex === null ? null : replay.divergenceIndex + 1;
   const splitAt = replay.divergenceIndex ?? replay.rows.length;
   const splitDelay = splitAt * PRINT_STEP + 100;
+  const [sharedOpen, setSharedOpen] = useState(false);
+  const folded = collapseShared && splitAt > 1 && !sharedOpen;
 
   return (
     <div>
-      <div aria-hidden="true" className="hidden border-b-2 border-ink pb-3 sm:grid sm:grid-compare">
-        {WORLDS.map((world) => (
-          <WorldBadge key={world} world={world} short />
-        ))}
-      </div>
-      <ol>
+      {!collapseShared && (
+        <div
+          aria-hidden="true"
+          className="hidden border-b-2 border-ink pb-3 sm:grid sm:grid-compare"
+        >
+          {WORLDS.map((world) => (
+            <WorldBadge key={world} world={world} short />
+          ))}
+        </div>
+      )}
+      {collapseShared && splitAt > 1 && (
+        <div {...reveal("print")} className="border-b border-ink py-5">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+            <p className="font-display text-h4 leading-head font-bold tracking-display">
+              {splitAt === replay.rows.length
+                ? "Všechny úkony dopadly v obou realitách stejně"
+                : `Úkony 1 až ${splitAt} dopadly v obou realitách stejně`}
+            </p>
+            <p className="ds-same">Stejně v obou realitách</p>
+          </div>
+          <p className="mt-2 text-small text-ink-2">
+            {replay.rows
+              .slice(0, splitAt)
+              .map(({ actionId }) => getAction(content, actionId).shortLabel)
+              .join(" · ")}
+          </p>
+          <button
+            type="button"
+            aria-expanded={sharedOpen}
+            aria-controls="shared-rows"
+            className={`mt-3 text-small ${TEXT_BUTTON}`}
+            onClick={() => setSharedOpen((open) => !open)}
+          >
+            {sharedOpen ? "Skrýt odpovědi" : "Zobrazit odpovědi"}
+          </button>
+        </div>
+      )}
+      <ol id="shared-rows">
         {replay.rows.map((row, index) => {
+          if (folded && index < splitAt) return null;
           const action = getAction(content, row.actionId);
           const stopped =
             stoppedIndex === null || index < stoppedIndex
@@ -105,7 +151,7 @@ export function ComparisonGrid({ content, replay, playedWorld }: ComparisonGridP
           const label = (
             <p className="font-mono text-meta text-ink-3">
               <span className="sr-only">Úkon {index + 1}: </span>
-              {typography(action.shortLabel.toLowerCase())}
+              {typography(action.shortLabel)}
             </p>
           );
           return (

@@ -7,6 +7,7 @@ import { typography } from "../utils/typography";
 import { MessageView, RecordView } from "./BodyView";
 import { Icon } from "./Icon";
 import { PANEL_KIND_LABEL, panelNumber } from "./presentation";
+import { TEXT_BUTTON } from "./styles";
 import { QuestionButton, TranscriptEntry } from "./Transcript";
 
 interface PanelViewProps {
@@ -59,7 +60,16 @@ export function PanelView({
   const [answersOnOpen] = useState(answers.length);
 
   useEffect(() => {
-    if (focusOnMount) heading.current?.focus();
+    if (!focusOnMount) return;
+    heading.current?.focus({ preventScroll: true });
+    // On phones the tabs sit above the sheet; bring the opened sheet to the top instead of
+    // leaving its answer below the tab grid.
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (window.matchMedia("(max-width: 900px)").matches) {
+      sheet.current?.scrollIntoView({ block: "start", behavior: reduced ? "auto" : "smooth" });
+    } else {
+      heading.current?.scrollIntoView({ block: "nearest" });
+    }
   }, [focusOnMount]);
 
   // After an answer arrives, continue with the next question, or with the sheet title if none is left.
@@ -82,7 +92,7 @@ export function PanelView({
     <article
       ref={sheet}
       aria-labelledby="panel-heading"
-      className={`ds-sheet min-w-0 self-start ${gate ? "border-dashed bg-tab" : ""} ${
+      className={`ds-sheet min-w-0 scroll-mt-4 self-start ${gate ? "border-dashed bg-tab" : ""} ${
         focusOnMount ? "sheet-swap" : ""
       }`}
     >
@@ -197,6 +207,9 @@ export function PanelView({
           )}
         </>
       )}
+      <a href="#sources-heading" className={`mt-8 inline-flex md:hidden ${TEXT_BUTTON}`}>
+        Zpět na podklady
+      </a>
     </article>
   );
 }

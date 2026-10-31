@@ -35,9 +35,11 @@
 
   --fs-hero: clamp(88px, 15vw, 216px); /* Dva světy na úvodu */
   --fs-reveal: clamp(72px, 10vw, 148px); /* Dvě reality */
-  --fs-clock: 112px;
-  --fs-h1: clamp(40px, 5vw, 72px);
-  --fs-h2: 48px;
+  /* App: titles and the clock are smaller than in the B2 package, so the case file shows its first
+     sheet sooner (see docs/implementation-status.md). */
+  --fs-clock: 44px;
+  --fs-h1: clamp(32px, 3.6vw, 52px);
+  --fs-h2: 34px;
   --fs-quote: 34px;          /* odpověď v přepisu hovoru */
   --fs-h3: 28px;
   --fs-h4: 22px;
@@ -77,7 +79,7 @@
   --space-8: 80px;
 
   /* --- Soutisk --- */
-  --offset-title: 5px;       /* posun desek u titulku; na mobilu 3px */
+  --offset-title: 3px;       /* posun desek u titulku; na mobilu 3px */
   --offset-sheet: 40px;      /* posun otisků pod zprávou; na mobilu 12px */
 
   /* --- Pohyb (viz reveal/reveal.css) --- */
@@ -91,10 +93,10 @@
 
 @media (max-width: 600px) {
   :root {
-    --offset-title: 3px;
+    --offset-title: 2px;
     --offset-sheet: 12px;
-    --fs-h2: 34px;
+    --fs-h2: 26px;
     --fs-quote: 25px;
-    --fs-clock: 44px;
+    --fs-clock: 32px;
   }
 }

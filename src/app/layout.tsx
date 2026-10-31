@@ -13,6 +13,8 @@ export const viewport: Viewport = {
   themeColor: "#f3f0e8",
   width: "device-width",
   initialScale: 1,
+  // Lets the docked decision bar sit above the home indicator via env(safe-area-inset-bottom).
+  viewportFit: "cover",
 };
 
 const FONTS = [

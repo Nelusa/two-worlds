@@ -17,7 +17,7 @@ export const EVENING_CASE: CaseContent = {
   storyTime: "Dnes 16:42",
   clockNote: "Akce se koná zítra",
   context:
-    "Zítra pořádáš komunitní večer. Ateliér Javor má ráno přivézt vybavení. Zbývá vyřešit zálohu a potvrdit dodání. Právě přišla nová zpráva.",
+    "Zítra pořádáš komunitní večer a Ateliér Javor má ráno přivézt vybavení. Právě přišla zpráva o záloze.",
   changeLabel: "záloha 8 400 Kč k JAVOR-014 na Účet B",
   attachmentAction: "open_attachment",
   variants: [

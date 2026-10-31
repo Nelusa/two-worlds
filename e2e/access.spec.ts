@@ -154,6 +154,29 @@ test.describe("phone viewport 390 × 844", () => {
     reducedMotion: "reduce",
   });
 
+  test("the decision bar stays docked to the bottom while scrolling", async ({ page }) => {
+    await startDemo(page, "world=fraudulent&variant=v1");
+    const bar = page.getByRole("button", { name: "Rozhodnout o požadavku" });
+    const viewport = page.viewportSize()?.height ?? 0;
+    for (const top of [0, 900, 100000]) {
+      await page.evaluate((y) => window.scrollTo(0, y), top);
+      await page.waitForTimeout(150);
+      const box = await bar.boundingBox();
+      expect(box).not.toBeNull();
+      // The button sits inside the docked bar, a little above the screen edge.
+      expect(box!.y + box!.height).toBeGreaterThan(viewport - 40);
+      expect(box!.y + box!.height).toBeLessThanOrEqual(viewport);
+    }
+    // At the end of the page the last history row is not hidden behind the bar.
+    const lastRow = await page
+      .getByRole("region", { name: "Historie úkonů" })
+      .getByRole("listitem")
+      .last()
+      .boundingBox();
+    const barBox = await bar.boundingBox();
+    expect(lastRow!.y + lastRow!.height).toBeLessThan(barBox!.y);
+  });
+
   test("principle and saved progress pages fit without horizontal scrolling", async ({ page }) => {
     for (const path of ["/about", "/saved"]) {
       await page.goto(path);

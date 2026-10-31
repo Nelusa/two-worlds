@@ -54,8 +54,10 @@
   --tracking-display: var(--ls-display);
   --tracking-hero: var(--ls-hero);
 
-  --animate-enter: enter var(--dur-fade) var(--ease-out) both;
-  --animate-print: print var(--dur-print) var(--ease-out) both;
+  /* Backwards fill only: once finished, no transform stays behind. A lingering identity transform
+     would make every ancestor a containing block and pull the docked decision bar off the screen. */
+  --animate-enter: enter var(--dur-fade) var(--ease-out) backwards;
+  --animate-print: print var(--dur-print) var(--ease-out) backwards;
 
   @keyframes enter {
     from {
@@ -141,9 +143,13 @@
   border-top: var(--border-section) solid var(--ink);
 }
 
-/* Room for the docked decision bar on narrow screens. */
+/* Room for the docked decision bar on narrow screens, including the device's safe area. */
 @utility pb-bar {
-  padding-bottom: 7rem;
+  padding-bottom: calc(7rem + env(safe-area-inset-bottom));
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 @layer components {

@@ -12,15 +12,15 @@ import { typography } from "../utils/typography";
 const STEPS = [
   {
     title: "Prozkoumej podklady",
-    text: "V seznamu podkladů otevřeš zprávu, dokumenty a kontakty a položíš otázky. Každý získaný podklad se zapíše do historie úkonů a do mapy původu.",
+    text: "Otevírej zprávu, dokumenty a kontakty a ptej se. Každý podklad se zapíše do historie a do mapy původu.",
   },
   {
     title: "Rozhodni se",
-    text: "Tlačítkem „Rozhodnout o požadavku“ můžeš kdykoli požadavek odsouhlasit, odmítnout, nebo počkat. Ověření není podmínkou, potvrzené rozhodnutí ale pokus uzamkne.",
+    text: "Tlačítkem „Rozhodnout o požadavku“ můžeš kdykoli odsouhlasit, odmítnout, nebo počkat. Ověření není podmínkou. Potvrzené rozhodnutí pokus uzamkne.",
   },
   {
     title: "Uvidíš obě reality",
-    text: "Pak se ukáže, co by tytéž kroky ukázaly ve druhé připravené realitě a kde se získané informace rozešly. Nic není skutečné, nic se neodesílá.",
+    text: "Pak uvidíš, co by tytéž kroky ukázaly ve druhé realitě a kde se získané informace rozešly.",
   },
 ];
 

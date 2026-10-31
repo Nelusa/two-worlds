@@ -10,7 +10,7 @@ import type { CaseId } from "../engine/types";
 import { describeRecord } from "../engine/summary";
 import { buildExport, clearAppData, parseSaved, STORAGE_KEYS } from "../storage/storage";
 import { downloadText } from "./download";
-import { plural } from "./presentation";
+import { plural, sourceCount } from "./presentation";
 import { useStoredItem } from "./useStoredItem";
 import { WorldBadge } from "./WorldBadge";
 
@@ -43,9 +43,9 @@ const RUN_NAME: Record<Run["step"], (run: Run) => string> = {
 
 const workLabel = (run: Run) => {
   const content = CASES[run.caseId];
-  const sources =
-    buildProvenance(content, observeAll(content, run.actions, run.setup)).nodes.length - 1;
-  return `${plural(run.actions.length, "úkon", "úkony", "úkonů")} · ${plural(sources, "podklad", "podklady", "podkladů")}`;
+  const sources = buildProvenance(content, observeAll(content, run.actions, run.setup)).nodes
+    .length;
+  return `${plural(run.actions.length, "úkon", "úkony", "úkonů")} · ${sourceCount(sources)}`;
 };
 
 const recordRow = (record: AttemptRecord, state: GameState): Row => {

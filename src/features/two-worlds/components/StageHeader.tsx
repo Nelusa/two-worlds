@@ -14,14 +14,14 @@ interface StageHeaderProps {
 /** Opening of every stage, set like the cover of a case file. */
 export function StageHeader({ kicker, title, lead, aside, children }: StageHeaderProps) {
   return (
-    <header className="ds-container grid grid-fill-auto items-start gap-x-6 pt-6 sm:pt-12">
+    <header className="ds-container grid grid-fill-auto items-start gap-x-6 pt-6 sm:pt-10">
       <p className="col-start-1 row-start-1 font-mono text-meta">{kicker.toLowerCase()}</p>
       {aside && (
         <div className="col-start-1 col-end-3 mt-5 max-sm:order-last sm:col-start-2 sm:row-span-4 sm:row-start-1 sm:mt-0 sm:self-end">
           {aside}
         </div>
       )}
-      <StageHeading className="col-start-1 col-end-3 mt-2 max-w-160 font-display text-h1 leading-tight font-extrabold tracking-display text-balance sm:col-end-2 sm:mt-3">
+      <StageHeading className="col-start-1 col-end-3 mt-2 max-w-200 font-display text-h1 leading-tight font-extrabold tracking-display text-balance sm:col-end-2 sm:mt-3">
         {title}
       </StageHeading>
       {lead && (
@@ -39,7 +39,7 @@ export function StageHeader({ kicker, title, lead, aside, children }: StageHeade
 export function StoryClock({ time, note }: { time: string; note: string }) {
   return (
     <div className="flex items-baseline gap-3 sm:block sm:text-right">
-      <p className="font-display text-clock leading-tight font-extrabold tracking-hero tabular-nums">
+      <p className="font-display text-clock leading-tight font-extrabold tracking-display tabular-nums">
         <span className="sr-only">Čas příběhu: </span>
         {time}
       </p>

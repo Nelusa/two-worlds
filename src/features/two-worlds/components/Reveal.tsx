@@ -52,6 +52,9 @@ export function Reveal({
   const decisionLabel =
     content.decisionOptions.find(({ decision }) => decision === record.decision)?.label ?? "";
   const [mapOpen, setMapOpen] = useState(false);
+  const [messageOpen, setMessageOpen] = useState(false);
+  const message = getVariant(content, record.setup.variantId);
+  const playedOutcome = describeOutcome(content, played, record.decision);
   const split = replay.divergenceIndex;
   // The point of the case in one line, said about this attempt before any of the detail.
   const takeaway =
@@ -134,17 +137,38 @@ export function Reveal({
       </header>
 
       <div className="ds-container space-y-20 pt-14 pb-24">
-        <div className="border-l-4 border-ink pl-5">
-          <p className="font-mono text-meta text-ink-3">pointa</p>
-          <p className="mt-2 font-display text-h3 leading-head font-extrabold tracking-display">
-            Stejná zpráva. Dvě reality. Rozhoduje, jak ji ověříš.
-          </p>
-          <p className="mt-2 max-w-160 leading-body">{typography(takeaway)}</p>
-        </div>
+        {/* The result comes first: what was decided, what it did, and how well it was grounded. */}
+        <section aria-labelledby="reveal-summary" className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+          <div className={`pt-4 ${WORLD_PLATE[played].rule}`}>
+            <h2 id="reveal-summary" className="font-mono text-meta">
+              tvůj výsledek
+            </h2>
+            <p className="mt-3 text-small text-ink-2">
+              Tvoje rozhodnutí: <b className="text-ink">{decisionLabel}</b>
+            </p>
+            <p className="mt-3">
+              <WorldBadge world={played} suffix="tady proběhl tvůj pokus" />
+            </p>
+            <p className="mt-1 font-display text-h3 leading-head font-extrabold tracking-display">
+              {playedOutcome.status}
+            </p>
+            <p className="mt-2 max-w-140 leading-body">{typography(playedOutcome.consequence)}</p>
+            <p className="mt-5 max-w-140 border-l-4 border-ink pl-4 leading-body">
+              {typography(takeaway)}
+            </p>
+          </div>
+          <div className="border-section pt-4">
+            <GroundingCard
+              content={content}
+              observations={observations}
+              decision={record.decision}
+            />
+          </div>
+        </section>
 
         <section aria-labelledby="reveal-1" data-reveal-section>
           {sectionHeading(0)}
-          <div className="relative mt-8">
+          <div className="relative mt-12">
             <span {...reveal("grow")} aria-hidden="true" className="ds-seam max-sm:hidden" />
             <div className="ds-press relative mx-auto max-w-lg">
               <div
@@ -165,22 +189,42 @@ export function Reveal({
                 <p className="mb-4 text-center font-mono text-micro">
                   stejné v obou realitách, včetně adresy, přílohy a času
                 </p>
-                <div className="text-small">
-                  <MessageView
-                    message={getVariant(content, record.setup.variantId)}
-                    storyTime={content.storyTime}
-                    subject={(text) => (
-                      <p className="mb-3 font-display text-h4 leading-head font-bold">{text}</p>
-                    )}
-                  />
-                </div>
+                {messageOpen ? (
+                  <div id="reveal-message" className="text-small">
+                    <MessageView
+                      message={message}
+                      storyTime={content.storyTime}
+                      subject={(text) => (
+                        <p className="mb-3 font-display text-h4 leading-head font-bold">{text}</p>
+                      )}
+                    />
+                  </div>
+                ) : (
+                  <div className="border-section pt-4 text-small">
+                    <p>
+                      <b>{message.from}</b> &lt;{message.address}&gt;
+                    </p>
+                    <p className="mt-2 font-display text-h4 leading-head font-bold">
+                      {typography(message.subject)}
+                    </p>
+                  </div>
+                )}
+                <button
+                  type="button"
+                  aria-expanded={messageOpen}
+                  aria-controls="reveal-message"
+                  className={`mt-3 text-small ${TEXT_BUTTON}`}
+                  onClick={() => setMessageOpen((open) => !open)}
+                >
+                  {messageOpen ? "Skrýt text zprávy" : "Zobrazit celou zprávu"}
+                </button>
               </article>
             </div>
             <p className="relative mx-auto mt-10 flex max-w-lg gap-3 bg-paper text-small leading-body">
               <span className="font-mono text-meta">pozn.</span>
               <span>
-                Text této zprávy napsala AI podle několika faktů z objednávky. Útočník by to zvládl
-                stejně snadno.
+                Text této zprávy navrhla AI podle několika faktů z objednávky. Podobně přesvědčivou
+                zprávu si s AI může připravit i někdo, kdo se za odesílatele jen vydává.
               </span>
             </p>
             <div className="relative mt-14 grid gap-10 sm:grid-compare sm:gap-14">
@@ -231,7 +275,12 @@ export function Reveal({
                 stejná zpráva.
               </p>
             ) : (
-              <ComparisonGrid content={content} replay={replay} playedWorld={played} />
+              <ComparisonGrid
+                content={content}
+                replay={replay}
+                playedWorld={played}
+                collapseShared
+              />
             )}
           </section>
         )}
@@ -242,7 +291,8 @@ export function Reveal({
             {replay.divergenceIndex === null && (
               <p {...reveal("fade")} className="text-center">
                 <span className="block text-small text-ink-3">
-                  Stejné podklady, tedy stejné rozhodnutí v obou realitách
+                  Získané informace obě reality nerozlišily. Takhle by tvoje volba dopadla v každé z
+                  nich:
                 </span>
                 <span className="font-display text-h3 font-bold">{decisionLabel}</span>
               </p>
@@ -310,15 +360,8 @@ export function Reveal({
               })}
             </div>
 
-            <div className="grid gap-10 border-t border-ink pt-6 lg:grid-cols-3">
-              <div className="lg:col-span-2">
-                <GroundingCard
-                  content={content}
-                  observations={observations}
-                  decision={record.decision}
-                />
-              </div>
-              <aside className="text-small leading-body text-ink-2 lg:border-l lg:border-ink lg:pl-6">
+            <div className="border-t border-ink pt-6">
+              <aside className="max-w-160 text-small leading-body text-ink-2">
                 <p className="mb-2 font-mono text-meta text-ink">pozn. · předpoklad modelu</p>
                 <p>{typography(content.modelAssumption)}</p>
                 {record.setup.savedContact === "unreachable" && (

@@ -89,6 +89,18 @@ Co zůstalo podle aplikace místo podle návrhu:
 - Plynulé přechody mezi stránkami, fázemi hry a listy; při omezení pohybu vypnuté.
 - Kód je v repozitáři `Nelusa/two-worlds`, produkce běží na https://dva-svety.vercel.app a nasazuje se z `main`.
 
+## Dokončení MVP (31. 10. večer)
+
+Podle zadání `dva-svety-claude-final-polish.md` (proklikání nasazené verze):
+
+- **Mobilní rozhodovací lišta** nebyla přichycená dole. Příčina: vstupní animace s `fill-mode: both` nechávala na `main` nulovou transformaci, a tím z něj dělala containing block pro `position: fixed`. Animace teď používají `backwards`, po doběhnutí nic nezůstane. Lišta respektuje bezpečnou oblast (`viewport-fit=cover`, `env(safe-area-inset-bottom)`). Hlídá to nový E2E test.
+- **Počet podkladů** má jeden význam: všechny podklady na stole včetně úvodní zprávy (`sourceCount` v `presentation.ts`), stejně jako součet v mapě původu. Uložené záznamy ani export se nemění.
+- **Hierarchie:** menší tokeny pro titulky a hodiny (`--fs-h1` max 52 px, `--fs-h2` 34/26 px, `--fs-clock` 44/32 px) a menší posun soutisku u „Dvě reality“. Jde o vědomou odchylku od balíčku B2, kvůli které je při 1440 × 900 i 1512 × 827 vidět začátek zprávy bez posouvání. Zvýrazněné věty už nejsou tučné, na mobilu jsou hodiny pod úvodem.
+- **Texty:** kratší úvod případu, nápověda i mapa; věta o AI na úvodu zpřesněná („Pouhý vzhled a bezchybný jazyk proto nestačí…“); poznámka v odhalení bez nedoloženého srovnání. Ve srovnání úkonů se nezmenšují vlastní jména.
+- **Odhalení začíná výsledkem:** rozhodnutí, důsledek v realitě pokusu, podloženost s hlavním důvodem a věta o místě rozchodu. Celá zpráva se rozbalí na požádání, shodné úkony jsou sbalené do jednoho řádku a místo rozchodu je vidět hned.
+- **Orientace:** na mobilu se otevřený list posune nahoru a pod ním je odkaz „Zpět na podklady“; větev se otevře na odpovědi, která se změnila.
+- `docs/submission-facts.md` shrnuje fakta pro přihlášku.
+
 ## Důležitá rozhodnutí
 
 - Samostatný projekt `two-worlds/` vedle ostatních osobních projektů, port 3021, stejný stack jako sousední projekty + Playwright.
@@ -105,7 +117,7 @@ Co zůstalo podle aplikace místo podle návrhu:
 | `npm run lint` (ESLint + jsx-a11y) | bez chyb |
 | `npm test` (Vitest) | 43/43 (nově i česká typografie), pokrývá všech 12 povinných pravidel, obě varianty zprávy, oba světy, dostupnost kontaktu zvlášť |
 | `npm run build` | úspěšný produkční build |
-| Playwright nad produkčním buildem, Chromium | 17/17 po převodu na B2 (29. 10.) |
+| Playwright nad produkčním buildem, Chromium | 18/18 po dokončení MVP (31. 10.), nově i ukotvená lišta na mobilu a jednotný počet podkladů |
 | Celý průchod úvod → podklady → rozhodnutí → dvě reality → větev → Můj postup → přenosový případ → závěrečná karta | E2E `journey.spec.ts` (podvodný svět), legitimní svět, nedostupný kontakt |
 | Neprozrazení světa | E2E: HTML `main` je v obou realitách totožné až do konkrétního dotazu; běžný režim neobsahuje demo ovladače ani výrazy jako „útočník“ |
 | Refresh uprostřed a po dokončení, nový pokus, export, smazání, poškozená a cizí verze dat | E2E `normal-mode.spec.ts` |

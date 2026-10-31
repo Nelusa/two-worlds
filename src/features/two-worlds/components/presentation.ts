@@ -23,6 +23,12 @@ export const panelNumber = (content: CaseContent, panelId: PanelId) =>
 export const plural = (count: number, one: string, few: string, many: string) =>
   `${count} ${count === 1 ? one : count >= 2 && count <= 4 ? few : many}`;
 
+/**
+ * Sources on the desk, the incoming message included: the same number the provenance map adds
+ * up to. Several calls through one contact are one source, not several.
+ */
+export const sourceCount = (count: number) => plural(count, "podklad", "podklady", "podkladů");
+
 export const PANEL_KIND_LABEL: Record<PanelKind, string> = {
   message: "e-mail",
   document: "dokument",

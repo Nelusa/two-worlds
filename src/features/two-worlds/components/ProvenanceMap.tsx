@@ -1,7 +1,7 @@
 import { buildProvenance, ROOT_LABEL, type ProvenanceNode } from "../engine/provenance";
 import type { CaseContent, Observation, Root } from "../engine/types";
 import { typography } from "../utils/typography";
-import { plural } from "./presentation";
+import { sourceCount } from "./presentation";
 
 interface ProvenanceMapProps {
   content: CaseContent;
@@ -17,7 +17,7 @@ const ROOTS: Root[] = ["incoming_request", "prior_record"];
 
 const EMPTY_NOTE: Record<Root, string> = {
   incoming_request: "",
-  prior_record: "Zatím tu nic není. Objeví se tu podklady, které vznikly před příchodem zprávy.",
+  prior_record: "Zatím nic.",
 };
 
 const REVEAL_NOTE: Record<Root, string> = {
@@ -88,7 +88,7 @@ export function ProvenanceMap({
             >
               <p className="text-small font-bold">{ROOT_LABEL[root]}</p>
               <p className="font-display text-h4 leading-head font-extrabold tracking-display">
-                {plural(laneNodes.length, "podklad", "podklady", "podkladů")}
+                {sourceCount(laneNodes.length)}
                 {shared && ", jeden původ"}
               </p>
               {tops.map((node) => (
